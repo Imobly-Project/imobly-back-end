@@ -11,11 +11,9 @@ data class PropertyDTO (
     @field:NotNull(message = "O campo título é obrigatório")
     @field:Size(min = 3, max = 50, message = "O campo título deve ter entre 3  e 50 caracteres")
     val title: String?,
-    @field:NotNull(message = "As imagens são obrigatórias")
-    @field:Size(min = 1, max = 50, message = "A quantidade de imagens deve estar entre 1  e 20")
     val pathImages: List<String>?,
     @field:NotNull(message = "O campo descrição é obrigatório")
-    @field:Size(min = 3, max = 50, message = "O campo descrição deve ter entre 3  e 50 caracteres")
+    @field:Size(min = 3, max = 1_500, message = "O campo descrição deve ter entre 3  e 1 500 caracteres")
     val description: String?,
     @field:NotNull(message = "O campo aluguel é obrigatório")
     @field:Min(0, message = "O valor mínimo do campo aluguel é 0,00")

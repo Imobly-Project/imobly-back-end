@@ -20,7 +20,7 @@ class PropertyEntity(
     val title: String,
     @Column(name = "caminho_imagens", nullable = false)
     val pathImages: List<String>,
-    @Column(name = "descricao", nullable = false, length = 1000)
+    @Column(name = "descricao", nullable = false, length = 1500)
     val description: String,
     @Column(name = "aluguel", nullable = false)
     val rentalValue: Double,
