@@ -3,6 +3,7 @@ package com.imobly.imobly.persistences.tenant.entities
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
+import java.time.LocalDate
 
 @Entity
 @Table(name = "tb_tenant")
@@ -16,9 +17,15 @@ class TenantEntity(
     @Column(name = "cpf", nullable = false, length = 20, unique = true)
     val cpf: String,
     @Column(name = "data_nascimento", nullable = false)
-    val birthDate: String,
+    val birthDate: LocalDate,
     @Column(name = "nacionalidade", nullable = false, length = 50)
     val nationality: String,
     @Column(name = "estado_civil", nullable = false, length = 50)
-    val maritalStatus: String
-) : UserRegisteredEntity(id = id, name = name, email = email, password = password)
+    val maritalStatus: String,
+    @Column(name = "telefones", nullable = false, length = 50)
+    val telephones: String,
+    @Column(name = "caminho_imagem", nullable = false)
+    val pathImage: String?,
+
+
+    ) : UserRegisteredEntity(id = id, name = name, email = email, password = password)

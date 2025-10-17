@@ -36,5 +36,11 @@ data class TenantDTO(
 
     @field:NotNull(message = "O campo estado civil é obrigatório")
     @field:Size(min = 3, max = 20, message = "O campo estado civil deve ter entre 3  e 20 caracteres")
-    val maritalStatus: String
+    val maritalStatus: String,
+
+    @field:NotNull(message = "O campo telefone é obrigatório")
+    @field:Size(min = 1, message = "Deve haver pelo menos um telefone informado")
+    val telephones: List<String>,
+
+    val pathImage: String?
 )

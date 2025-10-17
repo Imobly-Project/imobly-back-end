@@ -17,7 +17,9 @@ class TenantWebMapper {
             cpf = tenant.cpf,
             birthDate = tenant.birthDate,
             nationality = tenant.nationality,
-            maritalStatus = tenant.maritalStatus
+            maritalStatus = tenant.maritalStatus,
+            telephones = tenant.telephones.filter{it.isNotBlank()},
+            pathImage = tenant.pathImage
         )
 
     fun toDTO(tenant: TenantDomain): TenantDTO =
@@ -30,7 +32,9 @@ class TenantWebMapper {
             cpf = tenant.cpf,
             birthDate = tenant.birthDate,
             nationality = tenant.nationality,
-            maritalStatus = tenant.maritalStatus
+            maritalStatus = tenant.maritalStatus,
+            telephones = tenant.telephones,
+            pathImage = tenant.pathImage
         )
 
     fun toDTOs(tenants: List<TenantDomain>): List<TenantDTO>{

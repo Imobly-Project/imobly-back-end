@@ -6,10 +6,12 @@ import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
 import com.imobly.imobly.persistences.tenant.mappers.TenantPersistenceMapper
 import com.imobly.imobly.persistences.tenant.repositories.TenantRepository
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class TenantService(
     val repository: TenantRepository,
+    val uploadService: UploadService,
     val mapper: TenantPersistenceMapper
 ) {
 
@@ -22,12 +24,19 @@ class TenantService(
         }))
     }
 
-    fun insert(tenant: TenantDomain): TenantDomain {
+    fun insert(tenant: TenantDomain, file: MultipartFile): TenantDomain {
+        tenant.pathImage = uploadService.uploadObject(file)
         val tenantSaved = repository.save(mapper.toEntity(tenant))
         return mapper.toDomain(tenantSaved)
     }
-    fun update(id: String, tenant: TenantDomain): TenantDomain {
+    fun update(id: String, tenant: TenantDomain, file: MultipartFile?): TenantDomain {
+        tenant.pathImage = repository.findById(id).orElseThrow({
+            throw ResourceNotFoundException(RuntimeErrorEnum.ERR0002)
+        }).pathImage
        tenant.id = id
+        if (file != null) {
+            tenant.pathImage = uploadService.uploadObject(file)
+        }
         val tenantUpdated = repository.save(mapper.toEntity(tenant))
         return mapper.toDomain(tenantUpdated)
     }

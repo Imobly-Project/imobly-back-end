@@ -8,5 +8,7 @@ class TenantDomain(
     var cpf: String,
     var birthDate: String,
     var nationality: String,
-    var maritalStatus: String
+    var maritalStatus: String,
+    var telephones: List<String>,
+    var pathImage: String?
 )
