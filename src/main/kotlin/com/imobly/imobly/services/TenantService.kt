@@ -21,9 +21,10 @@ class TenantService(
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0002)
         }))
 
-    fun insert(tenant: TenantDomain, file: MultipartFile): TenantDomain {
+    fun insert(tenant: TenantDomain, file: MultipartFile?): TenantDomain {
         checkUniqueFields(tenant)
-        tenant.pathImage = uploadService.uploadObject(file)
+        uploadService.checkIfMultipartFileIsNull(file)
+        tenant.pathImage = uploadService.uploadObject(file!!)
         val tenantSaved = repository.save(mapper.toEntity(tenant))
         return mapper.toDomain(tenantSaved)
     }

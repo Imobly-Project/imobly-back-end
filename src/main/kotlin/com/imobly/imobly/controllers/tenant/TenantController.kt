@@ -28,29 +28,17 @@ class TenantController(val service: TenantService, val mapper: TenantWebMapper) 
 
     @PostMapping("/inserir")
     fun insert(
-        @Validated
-        @RequestPart ("tenant")
-        tenant: TenantDTO,
-
-        @Validated
-        @NotNull(message = "A imagem deve ser enviada.")
-        @RequestPart(value = "file")
-        file: MultipartFile?
+        @Validated @RequestPart ("tenant") tenant: TenantDTO,
+        @RequestPart(value = "file") file: MultipartFile?
     ): ResponseEntity<TenantDTO> = ResponseEntity.status(HttpStatus.CREATED).body(
-        mapper.toDTO(service.insert(mapper.toDomain(tenant), file!!))
+        mapper.toDTO(service.insert(mapper.toDomain(tenant), file))
     )
 
     @PutMapping("/atualizar/{id}")
     fun update(
-        @PathVariable
-        id: String,
-
-        @Validated
-        @RequestPart("tenant")
-        tenant: TenantDTO,
-
-        @RequestPart(value = "file", required = false)
-        file: MultipartFile?
+        @PathVariable id: String,
+        @Validated @RequestPart("tenant") tenant: TenantDTO,
+        @RequestPart(value = "file", required = false) file: MultipartFile?
     ): ResponseEntity<TenantDTO> = ResponseEntity.ok().body(
         mapper.toDTO(service.update(id,mapper.toDomain(tenant),file))
     )

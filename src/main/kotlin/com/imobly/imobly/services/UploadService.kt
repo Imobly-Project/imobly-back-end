@@ -3,6 +3,7 @@ package com.imobly.imobly.services
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.imobly.imobly.exceptions.InternalErrorException
+import com.imobly.imobly.exceptions.InvalidArgumentsException
 import com.imobly.imobly.exceptions.UnsupportedMediaTypeException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
 import org.springframework.stereotype.Service
@@ -35,6 +36,21 @@ class UploadService(val amazonS3Client: AmazonS3) {
             throw InternalErrorException(RuntimeErrorEnum.ERR0003)
         }
         return "https://$bucketName.s3.amazonaws.com/$fileName"
+    }
+
+    fun checkIfMultipartFileListIsNull(files: List<MultipartFile>?) {
+        if (files == null)
+            throw InvalidArgumentsException(RuntimeErrorEnum.ERR0009)
+    }
+
+    fun checkIfMultipartFileIsNull(files: MultipartFile?) {
+        if (files == null)
+            throw InvalidArgumentsException(RuntimeErrorEnum.ERR0009)
+    }
+
+    fun checkIfMultipartFilesListIsInTheInterval(files: List<MultipartFile>) {
+        if (files.size !in 3..15)
+            throw InvalidArgumentsException(RuntimeErrorEnum.ERR0010)
     }
 
     private fun getMetadata(objectFile: MultipartFile): ObjectMetadata {

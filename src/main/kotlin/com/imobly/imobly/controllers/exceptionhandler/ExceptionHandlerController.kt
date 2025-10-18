@@ -4,6 +4,7 @@ import com.imobly.imobly.controllers.exceptionhandler.dtos.ErrorFieldDTO
 import com.imobly.imobly.controllers.exceptionhandler.dtos.ErrorMessageDTO
 import com.imobly.imobly.exceptions.DuplicateResourceException
 import com.imobly.imobly.exceptions.InternalErrorException
+import com.imobly.imobly.exceptions.InvalidArgumentsException
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.UnsupportedMediaTypeException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
@@ -98,6 +99,22 @@ class ExceptionHandlerController {
     ): ResponseEntity<ErrorMessageDTO> {
         val enum: RuntimeErrorEnum = exception.errorEnum
         val status: HttpStatus = HttpStatus.UNSUPPORTED_MEDIA_TYPE
+        val error = ErrorMessageDTO(
+            code = enum.code,
+            status = status.value(),
+            message = enum.message,
+            timestamp = Instant.now(),
+            path = request.requestURI
+        )
+        return ResponseEntity.status(status).body(error)
+    }
+
+    @ExceptionHandler(InvalidArgumentsException::class)
+    fun invalidArguments(
+        exception: InvalidArgumentsException, request: HttpServletRequest
+    ): ResponseEntity<ErrorMessageDTO> {
+        val enum: RuntimeErrorEnum = exception.errorEnum
+        val status: HttpStatus = HttpStatus.BAD_REQUEST
         val error = ErrorMessageDTO(
             code = enum.code,
             status = status.value(),

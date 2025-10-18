@@ -12,5 +12,7 @@ enum class RuntimeErrorEnum(
     ERR0006("DUPLICATE_RESOURCE", "Este CPF já está registrado"),
     ERR0007("DUPLICATE_RESOURCE", "Este RG já está registrado"),
     ERR0008("UPLOAD_OBJECT_ERROR", "Não foi possível obter a extensão do arquivo"),
+    ERR0009("MULTIPARTFILE_ERROR", "A(s) imagem(ns) é(são) obrigatória(s)"),
+    ERR0010("MULTIPARTFILE_ERROR", "O número de imagens deve estar entre 3 e 15"),
 
 }

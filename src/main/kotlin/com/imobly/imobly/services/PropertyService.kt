@@ -3,6 +3,7 @@ package com.imobly.imobly.services
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
 import com.imobly.imobly.domains.PropertyDomain
+import com.imobly.imobly.exceptions.InvalidArgumentsException
 import com.imobly.imobly.persistences.property.mappers.PropertyPersistenceMapper
 import com.imobly.imobly.persistences.property.repositories.PropertyRepository
 import org.springframework.stereotype.Service
@@ -20,7 +21,9 @@ class PropertyService(
         }))
 
 
-    fun insert(property: PropertyDomain, files: List<MultipartFile>): PropertyDomain {
+    fun insert(property: PropertyDomain, files: List<MultipartFile>?): PropertyDomain {
+        uploadService.checkIfMultipartFileListIsNull(files)
+        uploadService.checkIfMultipartFilesListIsInTheInterval(files!!)
         property.pathImages = files.map { uploadService.uploadObject(it) }
         val propertySaved = repository.save(mapper.toEntity(property))
         return mapper.toDomain(propertySaved)
@@ -32,6 +35,7 @@ class PropertyService(
         }).pathImages
         property.id = id
         if (files != null) {
+            uploadService.checkIfMultipartFilesListIsInTheInterval(files)
             property.pathImages = files.map { uploadService.uploadObject(it) }
         }
         val propertyUpdated = repository.save(mapper.toEntity(property))
