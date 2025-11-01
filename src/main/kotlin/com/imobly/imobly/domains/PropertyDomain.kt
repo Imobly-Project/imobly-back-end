@@ -5,7 +5,7 @@ class PropertyDomain(
     var title: String = "",
     var pathImages: List<String> = emptyList(),
     var description: String = "",
-    var rentalValue: Double = 0.0,
+    var monthlyRent: Double = 0.0,
     var area: Float = 0.0f,
     var bedrooms: Int = 0,
     var bathrooms: Int = 0,

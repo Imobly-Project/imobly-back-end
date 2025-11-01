@@ -1,4 +1,4 @@
-package com.imobly.imobly.domains
+package com.imobly.imobly.domains.users
 
 // Necessário para futuras implementações (classes filhas: Tenant e LandLord)
 open class RegisteredUserDomain(

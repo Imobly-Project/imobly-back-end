@@ -2,7 +2,7 @@ package com.imobly.imobly.controllers.landlord.mappers
 
 import com.imobly.imobly.controllers.landlord.dtos.LandLordDTO
 import com.imobly.imobly.controllers.tenant.dtos.TelephoneDTO
-import com.imobly.imobly.domains.LandLordDomain
+import com.imobly.imobly.domains.users.LandLordDomain
 import org.springframework.stereotype.Component
 
 @Component

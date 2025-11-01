@@ -1,6 +1,6 @@
 package com.imobly.imobly.services
 
-import com.imobly.imobly.domains.TenantDomain
+import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.exceptions.DuplicateResourceException
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum

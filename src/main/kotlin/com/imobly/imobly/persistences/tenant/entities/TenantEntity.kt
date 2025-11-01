@@ -41,7 +41,9 @@ class TenantEntity(
     val telephones: List<String>,
     @Column(name = "caminho_imagem", nullable = false)
     val pathImage: String,
-    @OneToOne(cascade = [CascadeType.ALL])
+    @Column(name = "trabalho", nullable = false)
+    val job: String,
+    @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "fk_endereco_id", referencedColumnName = "id")
     val address: AddressEntity
 )

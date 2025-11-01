@@ -60,6 +60,10 @@ data class TenantDTO(
 
     val pathImage: String? = "",
 
+    @field:NotNull(message = "O campo trabalho é obrigatório")
+    @field:Size(min = 8, max = 50, message = "O campo trabalho deve ter entre 3  e 50 caracteres")
+    val job: String? = "",
+
     @field:Valid
     @field:NotNull(message = "O objeto endereço é obrigatório")
     val address: AddressDTO? = AddressDTO()

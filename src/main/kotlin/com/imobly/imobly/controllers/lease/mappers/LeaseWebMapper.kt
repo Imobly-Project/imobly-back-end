@@ -2,15 +2,15 @@ package com.imobly.imobly.controllers.lease.mappers
 
 import com.imobly.imobly.controllers.category.mappers.CategoryWebMapper
 import com.imobly.imobly.controllers.lease.dtos.LeaseDTO
+import com.imobly.imobly.controllers.payment.mappers.PaymentWebMapper
 import com.imobly.imobly.controllers.property.dtos.PropertyDTO
 import com.imobly.imobly.controllers.property.mappers.PropertyWebMapper
 import com.imobly.imobly.controllers.tenant.dtos.TenantDTO
 import com.imobly.imobly.controllers.tenant.mappers.TenantWebMapper
-import com.imobly.imobly.domains.LeaseDomain
+import com.imobly.imobly.domains.leases.LeaseDomain
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 
 @Component
 class LeaseWebMapper(val propertyMapper: PropertyWebMapper, val tenantMapper: TenantWebMapper) {
@@ -26,7 +26,7 @@ class LeaseWebMapper(val propertyMapper: PropertyWebMapper, val tenantMapper: Te
             durationInMonths = lease.durationInMonths ?: 0,
             monthlyRent = lease.monthlyRent ?: 0.0,
             securityDeposit = lease.securityDeposit ?: 0.0,
-            paymentDueDay = lease.paymentDueDay ?: 1
+            paymentDueDay = lease.paymentDueDay ?: 1,
         )
 
     fun toDTO(lease: LeaseDomain): LeaseDTO =
@@ -41,11 +41,10 @@ class LeaseWebMapper(val propertyMapper: PropertyWebMapper, val tenantMapper: Te
             durationInMonths = lease.durationInMonths,
             monthlyRent = lease.monthlyRent,
             securityDeposit = lease.securityDeposit,
-            paymentDueDay = lease.paymentDueDay
+            paymentDueDay = lease.paymentDueDay,
+            isEnabled = lease.isEnabled
         )
 
     fun toDTOs(leases: List<LeaseDomain>): List<LeaseDTO> =
-        leases.map {
-            toDTO(it)
-        }
+        leases.map { toDTO(it) }
 }

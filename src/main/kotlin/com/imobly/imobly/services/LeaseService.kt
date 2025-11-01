@@ -1,9 +1,9 @@
 package com.imobly.imobly.services
 
-import com.imobly.imobly.domains.LeaseAgreementDomain
-import com.imobly.imobly.domains.LeaseDomain
+import com.imobly.imobly.domains.leases.LeaseAgreementDomain
+import com.imobly.imobly.domains.leases.LeaseDomain
 import com.imobly.imobly.domains.PropertyDomain
-import com.imobly.imobly.domains.TenantDomain
+import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.exceptions.InvalidArgumentsException
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
@@ -19,6 +19,7 @@ class LeaseService(
     val leaseRepository: LeaseRepository,
     val propertyRepository: PropertyRepository,
     val tenantRepository: TenantRepository,
+    val paymentService: PaymentService,
     val mapper: LeasePersistenceMapper
 ) {
     fun findAll(): List<LeaseDomain> = mapper.toDomains(leaseRepository.findAll())
@@ -49,6 +50,7 @@ class LeaseService(
             paymentDueDay = leaseAgreement.paymentDueDay
         )
         val leaseSaved = leaseRepository.save(mapper.toEntity(lease))
+        paymentService.insert(mapper.toDomain(leaseSaved))
         return mapper.toDomain(leaseSaved)
     }
 
@@ -68,10 +70,11 @@ class LeaseService(
         return mapper.toDomain(leaseUpdated)
     }
 
-    fun delete(id: String) {
-        leaseRepository.findById(id).orElseThrow({
+    fun toggleEnable(id: String) {
+        val lease = mapper.toDomain(leaseRepository.findById(id).orElseThrow({
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0016)
-        })
-        leaseRepository.deleteById(id)
+        }))
+        lease.isEnabled = !lease.isEnabled
+        leaseRepository.save(mapper.toEntity(lease))
     }
 }

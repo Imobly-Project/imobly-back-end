@@ -1,5 +1,7 @@
-package com.imobly.imobly.domains
+package com.imobly.imobly.domains.leases
 
+import com.imobly.imobly.domains.PropertyDomain
+import com.imobly.imobly.domains.users.TenantDomain
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -15,6 +17,7 @@ class LeaseDomain(
     var durationInMonths: Long = ChronoUnit.MONTHS.between(startDate, LocalDate.now()),
     var monthlyRent: Double,
     var securityDeposit: Double,
-    var paymentDueDay: Int
+    var paymentDueDay: Int,
+    var isEnabled: Boolean = true
 )
 

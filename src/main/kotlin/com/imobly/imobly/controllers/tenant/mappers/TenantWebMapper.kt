@@ -4,7 +4,7 @@ import com.imobly.imobly.controllers.property.dtos.AddressDTO
 import com.imobly.imobly.controllers.property.mappers.AddressWebMapper
 import com.imobly.imobly.controllers.tenant.dtos.TelephoneDTO
 import com.imobly.imobly.controllers.tenant.dtos.TenantDTO
-import com.imobly.imobly.domains.TenantDomain
+import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.domains.enums.MaritalStatusEnum
 import org.springframework.stereotype.Component
 import java.time.LocalDate
@@ -22,6 +22,7 @@ class TenantWebMapper(val addressMapper: AddressWebMapper) {
             password = (tenant.password ?: "").trim(),
             rg = tenant.rg ?: "",
             cpf = tenant.cpf ?: "",
+            job = tenant.job ?: "",
             birthDate = tenant.birthDate ?: LocalDate.of(2000, 1, 1),
             nationality = (tenant.nationality ?: "").trim(),
             maritalStatus = tenant.maritalStatus ?: MaritalStatusEnum.SINGLE,
@@ -38,6 +39,7 @@ class TenantWebMapper(val addressMapper: AddressWebMapper) {
             password = tenant.password,
             rg = tenant.rg,
             cpf = tenant.cpf,
+            job = tenant.job,
             birthDate = tenant.birthDate,
             nationality = tenant.nationality,
             maritalStatus = tenant.maritalStatus,

@@ -1,4 +1,4 @@
-package com.imobly.imobly.domains
+package com.imobly.imobly.domains.leases
 
 import java.time.LocalDate
 

@@ -2,7 +2,7 @@ package com.imobly.imobly.controllers.lease.mappers
 
 import com.imobly.imobly.controllers.lease.dtos.LeaseAgreementDTO
 import com.imobly.imobly.controllers.lease.dtos.LeaseAgreementUpdateDTO
-import com.imobly.imobly.domains.LeaseAgreementDomain
+import com.imobly.imobly.domains.leases.LeaseAgreementDomain
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 

@@ -25,7 +25,7 @@ class PropertyEntity(
     @Column(name = "descricao", nullable = false, length = 1500)
     val description: String,
     @Column(name = "aluguel", nullable = false)
-    val rentalValue: Double,
+    val monthlyRent: Double,
     @Column(nullable = false)
     val area: Float,
     @Column(name = "quartos", nullable = false)

@@ -1,6 +1,6 @@
 package com.imobly.imobly.persistences.tenant.mappers
 
-import com.imobly.imobly.domains.TenantDomain
+import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.persistences.property.mappers.AddressPersistenceMapper
 import com.imobly.imobly.persistences.tenant.entities.TenantEntity
 import org.springframework.stereotype.Component
@@ -17,6 +17,7 @@ class TenantPersistenceMapper(val mapperAddress: AddressPersistenceMapper) {
             password = tenant.password,
             rg = tenant.rg,
             cpf = tenant.cpf,
+            job = tenant.job,
             birthDate = tenant.birthDate,
             nationality = tenant.nationality,
             maritalStatus = tenant.maritalStatus,
@@ -34,6 +35,7 @@ class TenantPersistenceMapper(val mapperAddress: AddressPersistenceMapper) {
             password = tenant.password,
             rg = tenant.rg,
             cpf = tenant.cpf,
+            job = tenant.job,
             birthDate = tenant.birthDate,
             nationality = tenant.nationality,
             maritalStatus = tenant.maritalStatus,

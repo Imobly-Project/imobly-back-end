@@ -6,25 +6,27 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class LeaseDTO(
-    val id: String?,
+    val id: String? = null,
 
-    val startDate: LocalDate?,
+    val startDate: LocalDate? = LocalDate.of(2000, 1, 1),
 
-    val endDate: LocalDate?,
+    val endDate: LocalDate? = LocalDate.of(2000, 1, 1),
 
-    val createdAt: LocalDateTime?,
+    val createdAt: LocalDateTime? = LocalDateTime.of(2000, 1, 1, 0, 0),
 
-    val lastUpdatedAt: LocalDateTime?,
+    val lastUpdatedAt: LocalDateTime? = LocalDateTime.of(2000, 1, 1, 0, 0),
 
-    val property: PropertyDTO?,
+    val property: PropertyDTO? = PropertyDTO(),
 
-    val tenant: TenantDTO?,
+    val tenant: TenantDTO? = TenantDTO(),
 
-    val durationInMonths: Long?,
+    val durationInMonths: Long? = 0,
 
-    val monthlyRent: Double?,
+    val monthlyRent: Double? = 0.0,
 
-    val securityDeposit: Double?,
+    val securityDeposit: Double? = 0.0,
 
-    val paymentDueDay: Int?
+    val paymentDueDay: Int? = 0,
+
+    val isEnabled: Boolean? = false
 )

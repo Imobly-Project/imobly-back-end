@@ -3,7 +3,7 @@ package com.imobly.imobly.controllers.issuereport.mappers
 import com.imobly.imobly.controllers.issuereport.dtos.ReportDTO
 import com.imobly.imobly.controllers.tenant.dtos.TenantDTO
 import com.imobly.imobly.controllers.tenant.mappers.TenantWebMapper
-import com.imobly.imobly.domains.ReportDomain
+import com.imobly.imobly.domains.reports.ReportDomain
 import com.imobly.imobly.domains.enums.ReportStatusEnum
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime

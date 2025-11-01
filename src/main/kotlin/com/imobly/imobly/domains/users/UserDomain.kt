@@ -1,4 +1,4 @@
-package com.imobly.imobly.domains
+package com.imobly.imobly.domains.users
 
 // Necessário para futuras implementações (classes filhas: RegisteredUser e Guest)
 abstract class UserDomain(

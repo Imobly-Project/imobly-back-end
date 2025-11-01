@@ -1,10 +1,10 @@
 package com.imobly.imobly.services
 
-import com.imobly.imobly.domains.ComplaintDomain
-import com.imobly.imobly.domains.ReportDomain
-import com.imobly.imobly.domains.ResponseReportDomain
-import com.imobly.imobly.domains.StatusReportDomain
-import com.imobly.imobly.domains.TenantDomain
+import com.imobly.imobly.domains.reports.ComplaintDomain
+import com.imobly.imobly.domains.reports.ReportDomain
+import com.imobly.imobly.domains.reports.ResponseReportDomain
+import com.imobly.imobly.domains.reports.StatusReportDomain
+import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
 import com.imobly.imobly.persistences.issuereport.mappers.ReportPersistenceMapper

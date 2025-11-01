@@ -1,7 +1,7 @@
 package com.imobly.imobly.controllers.issuereport.mappers
 
 import com.imobly.imobly.controllers.issuereport.dtos.ResponseReportDTO
-import com.imobly.imobly.domains.ResponseReportDomain
+import com.imobly.imobly.domains.reports.ResponseReportDomain
 import org.springframework.stereotype.Component
 
 @Component

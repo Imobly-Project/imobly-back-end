@@ -1,4 +1,4 @@
-package com.imobly.imobly.domains
+package com.imobly.imobly.domains.users
 
 class LandLordDomain(
     id: String? = null,

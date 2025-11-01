@@ -23,7 +23,7 @@ data class PropertyDTO (
     @field:NotNull(message = "O campo aluguel é obrigatório")
     @field:Min(0, message = "O valor mínimo do campo aluguel é 0,00")
     @field:Max(1_000_000, message = "O valor máximo do campo aluguel é 1 000 000,00")
-    val rentalValue: Double? = 0.0,
+    val monthlyRent: Double? = 0.0,
 
     @field:NotNull(message = "O campo área é obrigatório")
     @field:Min(0, message = "O valor mínimo do campo área é 0,00 m²")

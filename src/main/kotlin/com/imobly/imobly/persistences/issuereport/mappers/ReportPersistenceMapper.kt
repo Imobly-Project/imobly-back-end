@@ -1,6 +1,6 @@
 package com.imobly.imobly.persistences.issuereport.mappers
 
-import com.imobly.imobly.domains.ReportDomain
+import com.imobly.imobly.domains.reports.ReportDomain
 import com.imobly.imobly.persistences.issuereport.entities.ReportEntity
 import com.imobly.imobly.persistences.tenant.mappers.TenantPersistenceMapper
 import org.springframework.stereotype.Component

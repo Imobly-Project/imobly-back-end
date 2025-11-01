@@ -39,5 +39,7 @@ class LeaseEntity(
     @Column(name = "deposito_caucao", nullable = false)
     val securityDeposit: Double,
     @Column(name = "data_pagamento", nullable = false)
-    val paymentDueDay: Int
+    val paymentDueDay: Int,
+    @Column(name = "esta_ativo", nullable = false)
+    val isEnabled: Boolean
 )

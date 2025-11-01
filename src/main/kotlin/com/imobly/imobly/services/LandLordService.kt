@@ -1,6 +1,6 @@
 package com.imobly.imobly.services
 
-import com.imobly.imobly.domains.LandLordDomain
+import com.imobly.imobly.domains.users.LandLordDomain
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
 import com.imobly.imobly.persistences.landlord.mappers.LandLordPersistenceMapper

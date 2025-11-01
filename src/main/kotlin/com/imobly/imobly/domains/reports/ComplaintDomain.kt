@@ -1,4 +1,4 @@
-package com.imobly.imobly.domains
+package com.imobly.imobly.domains.reports
 
 class ComplaintDomain(
     var id: String? = null,
