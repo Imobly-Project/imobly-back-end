@@ -2,6 +2,7 @@ package com.imobly.imobly.controllers.exceptionhandler
 
 import com.imobly.imobly.controllers.exceptionhandler.dtos.ErrorFieldDTO
 import com.imobly.imobly.controllers.exceptionhandler.dtos.ErrorMessageDTO
+import com.imobly.imobly.exceptions.AuthenticationFailedException
 import com.imobly.imobly.exceptions.DuplicateResourceException
 import com.imobly.imobly.exceptions.InternalErrorException
 import com.imobly.imobly.exceptions.InvalidArgumentsException
@@ -115,6 +116,22 @@ class ExceptionHandlerController {
     ): ResponseEntity<ErrorMessageDTO> {
         val enum: RuntimeErrorEnum = exception.errorEnum
         val status: HttpStatus = HttpStatus.BAD_REQUEST
+        val error = ErrorMessageDTO(
+            code = enum.code,
+            status = status.value(),
+            message = enum.message,
+            timestamp = Instant.now(),
+            path = request.requestURI
+        )
+        return ResponseEntity.status(status).body(error)
+    }
+
+    @ExceptionHandler(AuthenticationFailedException::class)
+    fun authenticationFailed(
+        exception: AuthenticationFailedException, request: HttpServletRequest
+    ): ResponseEntity<ErrorMessageDTO> {
+        val enum: RuntimeErrorEnum = exception.errorEnum
+        val status: HttpStatus = HttpStatus.FORBIDDEN
         val error = ErrorMessageDTO(
             code = enum.code,
             status = status.value(),

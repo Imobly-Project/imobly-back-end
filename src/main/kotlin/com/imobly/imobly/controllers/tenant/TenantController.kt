@@ -26,14 +26,6 @@ class TenantController(val service: TenantService, val mapper: TenantWebMapper) 
             mapper.toDTO(service.findById(id))
         )
 
-    @PostMapping("/inserir")
-    fun insert(
-        @Validated @RequestPart ("tenant") tenant: TenantDTO,
-        @RequestPart(value = "file") file: MultipartFile?
-    ): ResponseEntity<TenantDTO> = ResponseEntity.status(HttpStatus.CREATED).body(
-        mapper.toDTO(service.insert(mapper.toDomain(tenant), file))
-    )
-
     @PutMapping("/atualizar/{id}")
     fun update(
         @PathVariable id: String,

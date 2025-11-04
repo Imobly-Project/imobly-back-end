@@ -5,6 +5,7 @@ import com.imobly.imobly.controllers.payment.dtos.StatusInstallmentDTO
 import com.imobly.imobly.controllers.payment.mappers.PaymentWebMapper
 import com.imobly.imobly.controllers.payment.mappers.StatusInstallmentWebMapper
 import com.imobly.imobly.services.PaymentService
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -35,7 +36,7 @@ class PaymentController(
     fun updateStatusInstallment(
         @PathVariable idPayment: String,
         @PathVariable idInstallment: String,
-        @RequestBody statusInstallment: StatusInstallmentDTO
+        @Valid @RequestBody statusInstallment: StatusInstallmentDTO
     ): ResponseEntity<Void> {
         service.updateStatusInstallment(
             idPayment,

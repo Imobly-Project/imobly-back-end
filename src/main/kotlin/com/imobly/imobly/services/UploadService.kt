@@ -18,7 +18,7 @@ class UploadService(val amazonS3Client: AmazonS3) {
     val supportedMediaTypes = listOf(".jpg", ".jpeg", ".png", ".webp")
     val bucketName = "my-personal-bucket-jvm"
 
-    fun uploadObject(objectFile: MultipartFile): String {
+    fun uploadImage(objectFile: MultipartFile): String {
         val extension: String = getExtension(objectFile)
 
         if (!supportedMediaTypes.contains(extension))

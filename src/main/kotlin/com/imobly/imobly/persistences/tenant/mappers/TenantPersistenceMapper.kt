@@ -1,5 +1,6 @@
 package com.imobly.imobly.persistences.tenant.mappers
 
+import com.imobly.imobly.domains.users.RegisteredUserDomain
 import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.persistences.property.mappers.AddressPersistenceMapper
 import com.imobly.imobly.persistences.tenant.entities.TenantEntity
@@ -23,7 +24,8 @@ class TenantPersistenceMapper(val mapperAddress: AddressPersistenceMapper) {
             maritalStatus = tenant.maritalStatus,
             telephones = tenant.telephones,
             pathImage = tenant.pathImage,
-            address = mapperAddress.toDomain(tenant.address)
+            address = mapperAddress.toDomain(tenant.address),
+            role = tenant.role
         )
 
     fun toEntity(tenant: TenantDomain): TenantEntity =
@@ -41,11 +43,23 @@ class TenantPersistenceMapper(val mapperAddress: AddressPersistenceMapper) {
             maritalStatus = tenant.maritalStatus,
             telephones = tenant.telephones,
             pathImage = tenant.pathImage,
-            address = mapperAddress.toEntity(tenant.address)
+            address = mapperAddress.toEntity(tenant.address),
+            role = tenant.role
         )
 
     fun toDomains(tenants: List<TenantEntity>): List<TenantDomain> =
         tenants.map{
             toDomain(it)
         }
+
+    fun toRegisteredUserDomain(tenant: TenantEntity): RegisteredUserDomain =
+        RegisteredUserDomain(
+            tenant.id,
+            tenant.firstName,
+            tenant.lastName,
+            tenant.email,
+            tenant.telephones,
+            tenant.password,
+            tenant.role
+        )
 }

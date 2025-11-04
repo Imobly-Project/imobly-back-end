@@ -3,14 +3,13 @@ package com.imobly.imobly.controllers.tenant.dtos
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.imobly.imobly.controllers.property.dtos.AddressDTO
 import com.imobly.imobly.domains.enums.MaritalStatusEnum
+import com.imobly.imobly.domains.enums.UserRoleEnum
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Past
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
-import org.hibernate.validator.constraints.br.CPF
-import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 
 data class TenantDTO(
@@ -55,8 +54,7 @@ data class TenantDTO(
 
     @field:Valid
     @field:NotNull(message = "O campo telefone é obrigatório")
-    @field:Size(min = 1, max = 3, message = "Deve informar entre 1 e 3 telefones")
-    val telephones: List<TelephoneDTO>? = listOf(TelephoneDTO("")),
+    val telephones: TelephoneDTO? = TelephoneDTO(),
 
     val pathImage: String? = "",
 
@@ -66,5 +64,7 @@ data class TenantDTO(
 
     @field:Valid
     @field:NotNull(message = "O objeto endereço é obrigatório")
-    val address: AddressDTO? = AddressDTO()
+    val address: AddressDTO? = AddressDTO(),
+
+    val role: UserRoleEnum = UserRoleEnum.TENANT
 )

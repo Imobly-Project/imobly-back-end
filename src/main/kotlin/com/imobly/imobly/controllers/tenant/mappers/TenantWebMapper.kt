@@ -26,7 +26,11 @@ class TenantWebMapper(val addressMapper: AddressWebMapper) {
             birthDate = tenant.birthDate ?: LocalDate.of(2000, 1, 1),
             nationality = (tenant.nationality ?: "").trim(),
             maritalStatus = tenant.maritalStatus ?: MaritalStatusEnum.SINGLE,
-            telephones = tenant.telephones?.map { it.telephone } ?: emptyList(),
+            telephones = listOf(
+                tenant.telephones?.telephone1?.trim() ?: "",
+                tenant.telephones?.telephone2?.trim() ?: "",
+                tenant.telephones?.telephone3?.trim() ?: ""
+            ),
             address = addressMapper.toDomain(tenant.address ?: AddressDTO())
         )
 
@@ -36,16 +40,21 @@ class TenantWebMapper(val addressMapper: AddressWebMapper) {
             firstName = tenant.firstName,
             lastName = tenant.lastName,
             email = tenant.email,
-            password = tenant.password,
+            password = "",
             rg = tenant.rg,
             cpf = tenant.cpf,
             job = tenant.job,
             birthDate = tenant.birthDate,
             nationality = tenant.nationality,
             maritalStatus = tenant.maritalStatus,
-            telephones = tenant.telephones.map { TelephoneDTO(it) },
+            telephones = TelephoneDTO(
+                tenant.telephones[0],
+                tenant.telephones[1],
+                tenant.telephones[2]
+            ),
             pathImage = tenant.pathImage,
-            address = addressMapper.toDTO(tenant.address)
+            address = addressMapper.toDTO(tenant.address),
+            role = tenant.role
         )
 
     fun toDTOs(tenants: List<TenantDomain>): List<TenantDTO> =

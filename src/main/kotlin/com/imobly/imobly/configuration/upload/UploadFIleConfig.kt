@@ -6,13 +6,16 @@ import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.AmazonS3ClientBuilder
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class UploadFIleConfig {
-    fun credentials(): AWSCredentials? =
-        BasicAWSCredentials(System.getenv("ACCESS_KEY"), System.getenv("SECRECT_KEY"))
+class UploadFIleConfig(
+    @field:Value("\${s3.access}") private val accessKey: String = "",
+    @field:Value("\${s3.secret}") private val secretKey: String = ""
+) {
+    fun credentials(): AWSCredentials? = BasicAWSCredentials(accessKey, secretKey)
 
     @Bean
     fun amazonS3(): AmazonS3 = AmazonS3ClientBuilder

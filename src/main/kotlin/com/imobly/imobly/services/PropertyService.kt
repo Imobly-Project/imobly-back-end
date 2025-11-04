@@ -33,7 +33,7 @@ class PropertyService(
         categoryRepository.findById(property.category.id ?: "").orElseThrow({
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0014)
         })
-        property.pathImages = files.map { uploadService.uploadObject(it) }
+        property.pathImages = files.map { uploadService.uploadImage(it) }
         val propertySaved = propertyRepository.save(mapper.toEntity(property, CategoryPersistenceMapper()))
         return mapper.toDomain(propertySaved, CategoryPersistenceMapper())
     }
@@ -48,7 +48,7 @@ class PropertyService(
         property.id = id
         if (files != null) {
             uploadService.checkIfMultipartFilesListIsInTheInterval(files)
-            property.pathImages = files.map { uploadService.uploadObject(it) }
+            property.pathImages = files.map { uploadService.uploadImage(it) }
         }
         val propertyUpdated = propertyRepository.save(mapper.toEntity(property, CategoryPersistenceMapper()))
         return mapper.toDomain(propertyUpdated, CategoryPersistenceMapper())

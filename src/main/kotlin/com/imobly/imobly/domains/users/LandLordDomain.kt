@@ -1,10 +1,13 @@
 package com.imobly.imobly.domains.users
 
+import com.imobly.imobly.domains.enums.UserRoleEnum
+
 class LandLordDomain(
     id: String? = null,
     firstName: String,
     lastName: String,
     email: String,
-    telephones: List<String>,
     password: String,
-): RegisteredUserDomain(id, firstName, lastName, email, telephones, password)
+    telephones: List<String>,
+    role: UserRoleEnum
+): RegisteredUserDomain(id, firstName, lastName, email, telephones, password, role)

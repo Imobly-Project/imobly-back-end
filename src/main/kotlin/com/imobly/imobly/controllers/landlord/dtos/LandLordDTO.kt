@@ -1,6 +1,7 @@
 package com.imobly.imobly.controllers.landlord.dtos
 
 import com.imobly.imobly.controllers.tenant.dtos.TelephoneDTO
+import com.imobly.imobly.domains.enums.UserRoleEnum
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
@@ -28,6 +29,7 @@ data class LandLordDTO (
 
     @field:Valid
     @field:NotNull(message = "O campo telefone é obrigatório")
-    @field:Size(min = 1, max = 3, message = "Deve informar entre 1 e 3 telefones")
-    val telephones: List<TelephoneDTO>?
+    val telephones: TelephoneDTO?,
+
+    val role: UserRoleEnum?
 )

@@ -18,20 +18,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/locadores")
 class LandLordController(val service: LandLordService, val mapper: LandLordWebMapper) {
-    @GetMapping("/encontrartodos")
-    fun findAll(): ResponseEntity<List<LandLordDTO>> =
-        ResponseEntity.ok().body(mapper.toDTOs(service.findAll()))
-
 
     @GetMapping("/encontrarporid/{id}")
     fun findById(@PathVariable id: String): ResponseEntity<LandLordDTO> =
         ResponseEntity.ok().body(mapper.toDTO(service.findById(id)))
 
-    @PostMapping("/inserir")
-    fun insert(@Valid @RequestBody landlord: LandLordDTO): ResponseEntity<LandLordDTO> =
-        ResponseEntity.status(HttpStatus.CREATED).body(
-            mapper.toDTO(service.insert(mapper.toDomain(landlord)))
-        )
 
     @PutMapping("/atualizar/{id}")
     fun update(

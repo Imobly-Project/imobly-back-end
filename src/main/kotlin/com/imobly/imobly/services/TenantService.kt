@@ -1,5 +1,6 @@
 package com.imobly.imobly.services
 
+import com.imobly.imobly.domains.enums.UserRoleEnum
 import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.exceptions.DuplicateResourceException
 import com.imobly.imobly.exceptions.ResourceNotFoundException
@@ -22,21 +23,22 @@ class TenantService(
         }))
 
     fun insert(tenant: TenantDomain, file: MultipartFile?): TenantDomain {
+        tenant.role = UserRoleEnum.TENANT
         checkUniqueFields(tenant)
         uploadService.checkIfMultipartFileIsNull(file)
-        tenant.pathImage = uploadService.uploadObject(file!!)
+        tenant.pathImage = uploadService.uploadImage(file!!)
         val tenantSaved = repository.save(mapper.toEntity(tenant))
         return mapper.toDomain(tenantSaved)
     }
 
     fun update(id: String, tenant: TenantDomain, file: MultipartFile?): TenantDomain {
-        tenant.pathImage = repository.findById(id).orElseThrow({
+        tenant.pathImage = repository.findById(id).orElseThrow {
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
-        }).pathImage
+        }.pathImage
         checkUniqueFields(tenant, id)
         tenant.id = id
         if (file != null) {
-            tenant.pathImage = uploadService.uploadObject(file)
+            tenant.pathImage = uploadService.uploadImage(file)
         }
         val tenantUpdated = repository.save(mapper.toEntity(tenant))
         return mapper.toDomain(tenantUpdated)
