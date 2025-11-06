@@ -30,6 +30,6 @@ class LandLordEntity (
     @Column(name = "papel", nullable = false)
     val role: UserRoleEnum,
 
-    @Column(name = "senha", nullable = false, length = 50)
+    @Column(name = "senha", nullable = false, length = 700)
     val  password: String = "",
 )

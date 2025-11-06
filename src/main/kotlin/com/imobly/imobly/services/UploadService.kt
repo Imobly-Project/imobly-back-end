@@ -13,7 +13,7 @@ import java.util.*
 import java.util.Locale.getDefault
 
 @Service
-class UploadService(val amazonS3Client: AmazonS3) {
+class UploadService(private val amazonS3Client: AmazonS3) {
 
     val supportedMediaTypes = listOf(".jpg", ".jpeg", ".png", ".webp")
     val bucketName = "my-personal-bucket-jvm"

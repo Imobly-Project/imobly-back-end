@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class IssueReportService(
-    val reportRepository: ReportRepository,
-    val tenantRepository: TenantRepository,
-    val mapper: ReportPersistenceMapper
+    private val reportRepository: ReportRepository,
+    private val tenantRepository: TenantRepository,
+    private val mapper: ReportPersistenceMapper
 ) {
     fun findAll(): List<ReportDomain> = mapper.toDomains(reportRepository.findAll())
 

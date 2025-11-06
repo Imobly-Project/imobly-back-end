@@ -47,7 +47,8 @@ class AuthenticationController(
     @PostMapping("/locatario/logar")
     fun signInTenant(@Valid @RequestBody auth: AuthDTO): ResponseEntity<TokenDTO> {
         tenantUserDetailsService.loadUserByUsername(auth.email)
-        return ResponseEntity.ok(generateToken(auth, UserRoleEnum.TENANT))
+        val tenant = tenantService.findByEmail(auth.email ?: "")
+        return ResponseEntity.ok(generateToken(auth, tenant.role, tenant.id ?: ""))
     }
 
     @PostMapping("/locador/cadastrar")
@@ -59,17 +60,18 @@ class AuthenticationController(
     @PostMapping("/locador/logar")
     fun signInLandLord(@Valid @RequestBody auth: AuthDTO):  ResponseEntity<TokenDTO> {
         landLordUserDetailsService.loadUserByUsername(auth.email)
-        return ResponseEntity.ok(generateToken(auth, UserRoleEnum.LAND_LORD))
+        val landLord = landLordService.findByEmail(auth.email ?: "")
+        return ResponseEntity.ok(generateToken(auth, landLord.role, landLord.id ?: ""))
     }
 
-    fun generateToken(auth: AuthDTO, role: UserRoleEnum): TokenDTO {
+    private fun generateToken(auth: AuthDTO, role: UserRoleEnum, id: String): TokenDTO {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 1)
         val date = calendar.time
         val token = tokenService.generateToken(
             subject = auth.email ?: "",
             expiration = date,
-            additionalClaims = mapOf(Pair("role", role))
+            additionalClaims = mapOf(Pair("role", role), Pair("id", id))
         )
         return TokenDTO(token)
     }

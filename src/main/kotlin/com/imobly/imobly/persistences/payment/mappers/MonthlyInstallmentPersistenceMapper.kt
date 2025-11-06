@@ -11,7 +11,8 @@ class MonthlyInstallmentPersistenceMapper {
             id = monthlyInstallment.id,
             monthlyRent = monthlyInstallment.monthlyRent,
             status = monthlyInstallment.status,
-            dueDate = monthlyInstallment.dueDate
+            dueDate = monthlyInstallment.dueDate,
+            month = monthlyInstallment.month
         )
 
     fun toEntity(monthlyInstallment: MonthlyInstallmentDomain): MonthlyInstallmentEntity =
@@ -19,7 +20,8 @@ class MonthlyInstallmentPersistenceMapper {
             id = monthlyInstallment.id,
             monthlyRent = monthlyInstallment.monthlyRent,
             status = monthlyInstallment.status,
-            dueDate = monthlyInstallment.dueDate
+            dueDate = monthlyInstallment.dueDate,
+            month = monthlyInstallment.month
         )
 
     fun toDomains(monthlyInstallments: List<MonthlyInstallmentEntity>): List<MonthlyInstallmentDomain> =

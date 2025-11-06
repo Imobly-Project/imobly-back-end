@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.time.LocalDate
+import java.time.Month
 
 @Entity
 @Table(name = "tb_parcela")
@@ -16,5 +17,6 @@ class MonthlyInstallmentEntity(
     val id: String?,
     val monthlyRent: Double,
     val status: PaymentStatusEnum,
-    val dueDate: LocalDate
+    val dueDate: LocalDate,
+    val month: Month
 )

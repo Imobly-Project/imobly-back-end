@@ -1,7 +1,7 @@
 package com.imobly.imobly.exceptions.enums
 
 enum class RuntimeErrorEnum(val code: String, val message: String) {
-    ERR0001("INVALID_ARGUMENTS", "Há campos invalidos na solicitação"),
+    ERR0001("INVALID_ARGUMENTS", "Há campos inválidos na solicitação"),
     ERR0002("INVALID_ARGUMENTS", "A data de início não pode ser posterior a data de términio"),
     ERR0003("UPLOAD_OBJECT_ERROR", "Houve um erro inesperado ao fazer o upload da imagem."),
     ERR0004("UPLOAD_OBJECT_ERROR", "O tipo da imagem não é suportada. Escolha entre (JPEG, PNG, WEBP)"),
@@ -18,5 +18,7 @@ enum class RuntimeErrorEnum(val code: String, val message: String) {
     ERR0015("RESOURCE_NOT_FOUND", "A reportação solicitada não foi encontrada"),
     ERR0016("RESOURCE_NOT_FOUND", "A locação solicitada não foi encontrada"),
     ERR0017("RESOURCE_NOT_FOUND", "O pagamento solicitado não foi encontrado"),
-    ERR0018("AUTHENTICATION_FAILED", "Não foi possível realizar a autenticação")
+    ERR0018("AUTHENTICATION_FAILED", "Não foi possível realizar a autenticação"),
+    ERR0019("AUTHENTICATION_FAILED", "Token não encontrado")
+
 }

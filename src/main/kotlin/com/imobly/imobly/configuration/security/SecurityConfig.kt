@@ -41,8 +41,8 @@ class SecurityConfig(val jwtAuthFilter: JwtAuthFilter) {
                     .requestMatchers("/locacoes/encontrartodos", "/locacoes/encontrarporid/**").hasRole("TENANT")
                     .requestMatchers("/locacoes/inserir", "/locacoes/atualizar/**", "/locacoes/alternarativo/**").hasRole("LAND_LORD")
 
-                    .requestMatchers("/locatarios/encontrartodos", "/locatarios/encontrarporid/**").hasRole("TENANT")
-                    .requestMatchers("/locatarios/atualizar/**", "/locatarios/deletar/**").hasRole("LAND_LORD")
+                    .requestMatchers("/locacoes/encontrarperfil").hasRole("TENANT")
+                    .requestMatchers("/locatarios/encontrartodos", "/locatarios/atualizar/**", "/locatarios/deletar/**").hasRole("LAND_LORD")
 
                     .requestMatchers("/pagamentos/encontrartodos", "/pagamentos/encontrarporid/**").hasRole("TENANT")
                     .requestMatchers("/pagamentos/atualizarstatus/**").hasRole("LAND_LORD")

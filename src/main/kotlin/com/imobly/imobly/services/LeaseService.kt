@@ -16,20 +16,19 @@ import java.time.LocalDateTime
 
 @Service
 class LeaseService(
-    val leaseRepository: LeaseRepository,
-    val propertyRepository: PropertyRepository,
-    val tenantRepository: TenantRepository,
-    val paymentService: PaymentService,
-    val mapper: LeasePersistenceMapper
+    private val leaseRepository: LeaseRepository,
+    private val propertyRepository: PropertyRepository,
+    private val tenantRepository: TenantRepository,
+    private val paymentService: PaymentService,
+    private val mapper: LeasePersistenceMapper
 ) {
     fun findAll(): List<LeaseDomain> = mapper.toDomains(leaseRepository.findAll())
 
-    fun findById(id: String): LeaseDomain {
-
-        return mapper.toDomain(leaseRepository.findById(id).orElseThrow({
+    fun findById(id: String): LeaseDomain =
+        mapper.toDomain(leaseRepository.findById(id).orElseThrow {
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0016)
-        }))
-    }
+        })
+
 
     fun insert(leaseAgreement: LeaseAgreementDomain): LeaseDomain {
         propertyRepository.findById(leaseAgreement.propertyId).orElseThrow({

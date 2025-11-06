@@ -25,8 +25,8 @@ class JwtAuthFilter(
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val authHeader = request.getHeader("Authorization")
         var authenticated = false
-        if (authHeader != null && authHeader.contains("Bearer")) {
-            val token = authHeader.substring(7)
+        if (authHeader != null) {
+            val token = tokenService.extractToken(authHeader)
             val username = tokenService.extractUsername(token)
             val role = tokenService.extractRole(token)
             val expired = tokenService.isTokenExpired(token)

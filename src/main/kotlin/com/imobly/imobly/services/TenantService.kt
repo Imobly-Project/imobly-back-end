@@ -1,47 +1,75 @@
 package com.imobly.imobly.services
 
 import com.imobly.imobly.domains.enums.UserRoleEnum
+import com.imobly.imobly.domains.users.RestrictedTenantDomain
 import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.exceptions.DuplicateResourceException
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
 import com.imobly.imobly.persistences.tenant.mappers.TenantPersistenceMapper
 import com.imobly.imobly.persistences.tenant.repositories.TenantRepository
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
 @Service
 class TenantService(
-    val repository: TenantRepository, val uploadService: UploadService, val mapper: TenantPersistenceMapper
+    private val repository: TenantRepository,
+    private val uploadService: UploadService,
+    private val tenantMapper: TenantPersistenceMapper
 ) {
 
-    fun findAll(): List<TenantDomain> = mapper.toDomains(repository.findAll())
+    fun findAll(): List<TenantDomain> = tenantMapper.toDomains(repository.findAll())
 
     fun findById(id: String): TenantDomain =
-        mapper.toDomain(repository.findById(id).orElseThrow({
+        tenantMapper.toDomain(repository.findById(id).orElseThrow {
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
-        }))
+        })
+
+    fun findByEmail(email: String): TenantDomain =
+        tenantMapper.toDomain(repository.findByEmail(email).orElseThrow {
+            throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
+        })
 
     fun insert(tenant: TenantDomain, file: MultipartFile?): TenantDomain {
         tenant.role = UserRoleEnum.TENANT
+        tenant.passwd = BCryptPasswordEncoder().encode(tenant.password)
         checkUniqueFields(tenant)
         uploadService.checkIfMultipartFileIsNull(file)
         tenant.pathImage = uploadService.uploadImage(file!!)
-        val tenantSaved = repository.save(mapper.toEntity(tenant))
-        return mapper.toDomain(tenantSaved)
+        val tenantSaved = repository.save(tenantMapper.toEntity(tenant))
+        return tenantMapper.toDomain(tenantSaved)
     }
 
     fun update(id: String, tenant: TenantDomain, file: MultipartFile?): TenantDomain {
-        tenant.pathImage = repository.findById(id).orElseThrow {
+        val tenantEntity = repository.findById(id).orElseThrow {
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
-        }.pathImage
-        checkUniqueFields(tenant, id)
+        }
+
         tenant.id = id
+        tenant.role = tenantEntity.role
+        tenant.passwd = tenantEntity.password
+
+        checkUniqueFields(tenant, id)
         if (file != null) {
             tenant.pathImage = uploadService.uploadImage(file)
         }
-        val tenantUpdated = repository.save(mapper.toEntity(tenant))
-        return mapper.toDomain(tenantUpdated)
+        val tenantUpdated = repository.save(tenantMapper.toEntity(tenant))
+        return tenantMapper.toDomain(tenantUpdated)
+    }
+
+    fun restrictedUpdate(id: String, restrictedTenant: RestrictedTenantDomain, file: MultipartFile?): TenantDomain {
+        val tenant = tenantMapper.toDomain(repository.findById(id).orElseThrow {
+            throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
+        })
+        checkUniqueFields(restrictedTenant, id)
+        tenant.email = restrictedTenant.email
+        tenant.telephones = restrictedTenant.telephones
+        if (file != null) {
+            tenant.pathImage = uploadService.uploadImage(file)
+        }
+        val tenantUpdated = repository.save(tenantMapper.toEntity(tenant))
+        return tenantMapper.toDomain(tenantUpdated)
     }
 
     fun delete(id: String) {
@@ -51,7 +79,7 @@ class TenantService(
         repository.deleteById(id)
     }
 
-    fun checkUniqueFields(tenant: TenantDomain, id: String = "") {
+    private fun checkUniqueFields(tenant: TenantDomain, id: String = "") {
         repository.findByEmail(tenant.email).ifPresent {
             if (it.email == tenant.email && it.id != id)
                 throw DuplicateResourceException(RuntimeErrorEnum.ERR0005)
@@ -63,6 +91,13 @@ class TenantService(
         repository.findByRg(tenant.rg).ifPresent {
             if (it.rg == tenant.rg && it.id != id)
                 throw DuplicateResourceException(RuntimeErrorEnum.ERR0007)
+        }
+    }
+
+    private fun checkUniqueFields(tenant: RestrictedTenantDomain, id: String = "") {
+        repository.findByEmail(tenant.email).ifPresent {
+            if (it.email == tenant.email && it.id != id)
+                throw DuplicateResourceException(RuntimeErrorEnum.ERR0005)
         }
     }
 }

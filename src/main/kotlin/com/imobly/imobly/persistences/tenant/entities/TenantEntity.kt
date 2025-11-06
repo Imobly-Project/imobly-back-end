@@ -30,8 +30,8 @@ class TenantEntity(
     @Column(nullable = false, length = 100, unique = true)
     val email: String = "",
 
-    @Column(name = "senha", nullable = false, length = 50)
-    val  password: String = "",
+    @Column(name = "senha", nullable = false, length = 700)
+    val password: String = "",
 
     @Column(nullable = false, length = 13, unique = true)
     val rg: String,

@@ -13,7 +13,8 @@ class MonthlyInstallmentWebMapper {
             id = monthlyInstallment.id,
             monthlyRent = monthlyInstallment.monthlyRent ?: 0.0,
             status = monthlyInstallment.status ?: PaymentStatusEnum.PENDING,
-            dueDate = monthlyInstallment.dueDate ?: LocalDate.of(2000, 1, 1)
+            dueDate = monthlyInstallment.dueDate ?: LocalDate.of(2000, 1, 1),
+            month = monthlyInstallment.month
         )
 
     fun toDTO(monthlyInstallment: MonthlyInstallmentDomain): MonthlyInstallmentDTO =
@@ -21,7 +22,8 @@ class MonthlyInstallmentWebMapper {
             id = monthlyInstallment.id,
             monthlyRent = monthlyInstallment.monthlyRent,
             status = monthlyInstallment.status,
-            dueDate = monthlyInstallment.dueDate
+            dueDate = monthlyInstallment.dueDate,
+            month = monthlyInstallment.month
         )
 
     fun toDomains(monthlyInstallments: List<MonthlyInstallmentDTO>): List<MonthlyInstallmentDomain> =

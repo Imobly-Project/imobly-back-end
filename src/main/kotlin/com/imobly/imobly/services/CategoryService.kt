@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CategoryService(
-    val repository: CategoryRepository, val mapper: CategoryPersistenceMapper
+    private val repository: CategoryRepository, private val mapper: CategoryPersistenceMapper
 ) {
     fun findAll(): List<CategoryDomain> = mapper.toDomains(repository.findAll())
 

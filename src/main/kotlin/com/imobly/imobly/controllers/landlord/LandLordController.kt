@@ -3,6 +3,8 @@ package com.imobly.imobly.controllers.landlord
 import com.imobly.imobly.controllers.landlord.mappers.LandLordWebMapper
 import com.imobly.imobly.controllers.landlord.dtos.LandLordDTO
 import com.imobly.imobly.services.LandLordService
+import com.imobly.imobly.services.security.TokenService
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,23 +19,34 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/locadores")
-class LandLordController(val service: LandLordService, val mapper: LandLordWebMapper) {
+class LandLordController(
+    val service: LandLordService,
+    val mapper: LandLordWebMapper,
+    val tokenService: TokenService
+) {
+    @GetMapping("/encontrarperfil")
+    fun findProfile(request: HttpServletRequest): ResponseEntity<LandLordDTO> {
+        val id = getIdFromRequest(request)
+        return ResponseEntity.ok().body(mapper.toDTO(service.findById(id)))
+    }
 
-    @GetMapping("/encontrarporid/{id}")
-    fun findById(@PathVariable id: String): ResponseEntity<LandLordDTO> =
-        ResponseEntity.ok().body(mapper.toDTO(service.findById(id)))
+    @PutMapping("/atualizarperfil")
+    fun updateProfile(request: HttpServletRequest, @Valid @RequestBody landlord: LandLordDTO): ResponseEntity<LandLordDTO> {
+        val id = getIdFromRequest(request)
+        return ResponseEntity.ok().body(
+            mapper.toDTO(service.update(id, mapper.toDomain(landlord)))
+        )
+    }
 
-
-    @PutMapping("/atualizar/{id}")
-    fun update(
-        @PathVariable id: String, @Valid @RequestBody landlord: LandLordDTO,
-    ): ResponseEntity<LandLordDTO> = ResponseEntity.ok().body(
-        mapper.toDTO(service.update(id, mapper.toDomain(landlord)))
-    )
-
-    @DeleteMapping("/deletar/{id}")
-    fun delete(@PathVariable id: String): ResponseEntity<Void> {
+    @DeleteMapping("/deletarperfil")
+    fun deleteProfile(request: HttpServletRequest): ResponseEntity<Void> {
+        val id = getIdFromRequest(request)
         service.delete(id)
         return ResponseEntity.ok().build()
+    }
+
+    private fun getIdFromRequest(request: HttpServletRequest): String {
+        val token = tokenService.extractToken(request.getHeader("Authorization"))
+        return tokenService.extractId(token)
     }
 }

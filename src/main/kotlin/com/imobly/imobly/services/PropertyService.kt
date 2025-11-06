@@ -14,10 +14,10 @@ import org.springframework.web.multipart.MultipartFile
 
 @Service
 class PropertyService(
-    val propertyRepository: PropertyRepository,
-    val categoryRepository: CategoryRepository,
-    val uploadService: UploadService,
-    val mapper: PropertyPersistenceMapper
+    private val propertyRepository: PropertyRepository,
+    private val categoryRepository: CategoryRepository,
+    private val uploadService: UploadService,
+    private val mapper: PropertyPersistenceMapper
 ) {
     fun findAll(): List<PropertyDomain> = mapper.toDomains(propertyRepository.findAll())
 
