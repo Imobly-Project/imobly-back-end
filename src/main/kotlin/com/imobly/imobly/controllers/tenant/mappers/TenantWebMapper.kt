@@ -48,9 +48,9 @@ class TenantWebMapper(val addressMapper: AddressWebMapper) {
             nationality = tenant.nationality,
             maritalStatus = tenant.maritalStatus,
             telephones = TelephoneDTO(
-                tenant.telephones[0],
-                tenant.telephones[1],
-                tenant.telephones[2]
+                tenant.telephones.getOrNull(0),
+                tenant.telephones.getOrNull(1),
+                tenant.telephones.getOrNull(2)
             ),
             pathImage = tenant.pathImage,
             address = addressMapper.toDTO(tenant.address),

@@ -22,10 +22,8 @@ class GraphService(
         payments.forEach {
             it.installments.forEach { installment ->
                 if (installment.status == PaymentStatusEnum.PAID) {
-                    val sum = values[installment.month]?.plus(installment.monthlyRent)
-                    if (sum != null) {
-                        values[installment.month] = sum
-                    }
+                    val currentValue = values.getOrDefault(installment.month, 0.0)
+                    values[installment.month] = currentValue + installment.monthlyRent
                 }
             }
         }
@@ -34,7 +32,9 @@ class GraphService(
 
     fun getChartRentedProperties(): MutableMap<String, Int> {
         val leases = leaseRepository.findAll()
+
         val values: MutableMap<String, Int> = mutableMapOf()
+        values["RENTED"] = 0
         leases.forEach {
             if (it.isEnabled) {
                 val sum = values["RENTED"]?.plus(1)
@@ -51,19 +51,19 @@ class GraphService(
     fun getChartRentsPaidThisMonth(): MutableMap<String, Int>  {
         val payments = paymentRepository.findAll()
         val values: MutableMap<String, Int> = mutableMapOf()
+        values["PAID"]= 0
+        values["NOT_PAID"]=0
         payments.forEach {
             it.installments.forEach { installment ->
                 val monthActual = LocalDate.now().month
-                if (installment.month == monthActual && installment.status == PaymentStatusEnum.PAID) {
+                val yearActual = LocalDate.now().year
+                if (installment.month == monthActual && installment.dueDate.year == yearActual && installment.status == PaymentStatusEnum.PAID) {
                     val sum = values["PAID"]?.plus(1)
                     if (sum != null) {
                         values["PAID"] = sum
                     }
-                } else if (installment.month == monthActual) {
-                    val sum = values["NOT_PAID"]?.plus(1)
-                    if (sum != null) {
-                        values["NOT_PAID"] = sum
-                    }
+                } else if (installment.month == monthActual && installment.dueDate.year == yearActual) {
+                    values["NOT_PAID"] = values["NOT_PAID"]!!+1
                 }
             }
         }

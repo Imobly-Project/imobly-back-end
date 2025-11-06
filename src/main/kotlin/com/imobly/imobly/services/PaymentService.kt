@@ -38,7 +38,7 @@ class PaymentService(
                 monthlyRent = lease.monthlyRent,
                 status = PaymentStatusEnum.PENDING,
                 dueDate = date.plusMonths(nInstallment),
-                month = lease.startDate.month
+                month = date.plusMonths(nInstallment).month
             ))
         }
         val payment = PaymentDomain(lease = lease, installments = installments)
