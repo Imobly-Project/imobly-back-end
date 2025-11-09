@@ -4,7 +4,7 @@ import com.imobly.imobly.domains.reports.ComplaintDomain
 import com.imobly.imobly.domains.reports.ReportDomain
 import com.imobly.imobly.domains.reports.ResponseReportDomain
 import com.imobly.imobly.domains.reports.StatusReportDomain
-import com.imobly.imobly.domains.users.TenantDomain
+import com.imobly.imobly.domains.users.tenant.TenantDomain
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
 import com.imobly.imobly.persistences.issuereport.mappers.ReportPersistenceMapper

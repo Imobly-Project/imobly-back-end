@@ -1,6 +1,6 @@
 package com.imobly.imobly.persistences.landlord.mappers
 
-import com.imobly.imobly.domains.users.LandLordDomain
+import com.imobly.imobly.domains.users.landlord.LandLordDomain
 import com.imobly.imobly.domains.users.RegisteredUserDomain
 import com.imobly.imobly.persistences.landlord.entities.LandLordEntity
 import com.imobly.imobly.persistences.tenant.entities.TenantEntity

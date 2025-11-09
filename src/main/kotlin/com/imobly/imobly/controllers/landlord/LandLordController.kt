@@ -2,6 +2,7 @@ package com.imobly.imobly.controllers.landlord
 
 import com.imobly.imobly.controllers.landlord.mappers.LandLordWebMapper
 import com.imobly.imobly.controllers.landlord.dtos.LandLordDTO
+import com.imobly.imobly.controllers.landlord.dtos.UpdateLandLordDTO
 import com.imobly.imobly.services.LandLordService
 import com.imobly.imobly.services.security.TokenService
 import jakarta.servlet.http.HttpServletRequest
@@ -31,7 +32,7 @@ class LandLordController(
     }
 
     @PutMapping("/atualizarperfil")
-    fun updateProfile(request: HttpServletRequest, @Valid @RequestBody landlord: LandLordDTO): ResponseEntity<LandLordDTO> {
+    fun updateProfile(request: HttpServletRequest, @Valid @RequestBody landlord: UpdateLandLordDTO): ResponseEntity<LandLordDTO> {
         val id = getIdFromRequest(request)
         return ResponseEntity.ok().body(
             mapper.toDTO(service.update(id, mapper.toDomain(landlord)))

@@ -1,8 +1,9 @@
-package com.imobly.imobly.domains.users
+package com.imobly.imobly.domains.users.tenant
 
 import com.imobly.imobly.domains.AddressDomain
 import com.imobly.imobly.domains.enums.MaritalStatusEnum
 import com.imobly.imobly.domains.enums.UserRoleEnum
+import com.imobly.imobly.domains.users.RegisteredUserDomain
 import java.time.LocalDate
 
 class TenantDomain(

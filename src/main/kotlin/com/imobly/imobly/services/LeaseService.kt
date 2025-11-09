@@ -3,7 +3,7 @@ package com.imobly.imobly.services
 import com.imobly.imobly.domains.leases.LeaseAgreementDomain
 import com.imobly.imobly.domains.leases.LeaseDomain
 import com.imobly.imobly.domains.PropertyDomain
-import com.imobly.imobly.domains.users.TenantDomain
+import com.imobly.imobly.domains.users.tenant.TenantDomain
 import com.imobly.imobly.exceptions.InvalidArgumentsException
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum

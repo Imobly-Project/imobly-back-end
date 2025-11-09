@@ -1,6 +1,6 @@
 package com.imobly.imobly.domains.reports
 
-import com.imobly.imobly.domains.users.TenantDomain
+import com.imobly.imobly.domains.users.tenant.TenantDomain
 import com.imobly.imobly.domains.enums.ReportStatusEnum
 import java.time.LocalDateTime
 

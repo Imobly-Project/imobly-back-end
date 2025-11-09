@@ -1,7 +1,7 @@
 package com.imobly.imobly.domains.leases
 
 import com.imobly.imobly.domains.PropertyDomain
-import com.imobly.imobly.domains.users.TenantDomain
+import com.imobly.imobly.domains.users.tenant.TenantDomain
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit

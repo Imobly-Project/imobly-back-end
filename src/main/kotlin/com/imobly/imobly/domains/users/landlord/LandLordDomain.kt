@@ -1,6 +1,7 @@
-package com.imobly.imobly.domains.users
+package com.imobly.imobly.domains.users.landlord
 
 import com.imobly.imobly.domains.enums.UserRoleEnum
+import com.imobly.imobly.domains.users.RegisteredUserDomain
 
 class LandLordDomain(
     id: String? = null,

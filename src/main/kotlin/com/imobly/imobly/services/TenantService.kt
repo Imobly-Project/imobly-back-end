@@ -1,8 +1,9 @@
 package com.imobly.imobly.services
 
 import com.imobly.imobly.domains.enums.UserRoleEnum
-import com.imobly.imobly.domains.users.RestrictedTenantDomain
-import com.imobly.imobly.domains.users.TenantDomain
+import com.imobly.imobly.domains.users.tenant.LandLordUpdateTenantDomain
+import com.imobly.imobly.domains.users.tenant.SelfUpdateTenantDomain
+import com.imobly.imobly.domains.users.tenant.TenantDomain
 import com.imobly.imobly.exceptions.DuplicateResourceException
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
@@ -41,24 +42,32 @@ class TenantService(
         return tenantMapper.toDomain(tenantSaved)
     }
 
-    fun update(id: String, tenant: TenantDomain, file: MultipartFile?): TenantDomain {
-        val tenantEntity = repository.findById(id).orElseThrow {
+    fun landLordUpdate(id: String, tenant: LandLordUpdateTenantDomain, file: MultipartFile?): TenantDomain {
+        val tenantInDatabase = tenantMapper.toDomain(repository.findById(id).orElseThrow {
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
-        }
+        })
 
-        tenant.id = id
-        tenant.role = tenantEntity.role
-        tenant.passwd = tenantEntity.password
+        tenantInDatabase.firstName = tenant.firstName
+        tenantInDatabase.lastName = tenant.lastName
+        tenantInDatabase.cpf = tenant.cpf
+        tenantInDatabase.rg = tenant.rg
+        tenantInDatabase.email = tenant.email
+        tenantInDatabase.nationality = tenant.nationality
+        tenantInDatabase.maritalStatus = tenant.maritalStatus
+        tenantInDatabase.job = tenant.job
+        tenantInDatabase.telephones = tenant.telephones
+        tenantInDatabase.birthDate = tenant.birthDate
+        tenantInDatabase.address = tenant.address
 
         checkUniqueFields(tenant, id)
-        if (file != null) {
-            tenant.pathImage = uploadService.uploadImage(file)
-        }
-        val tenantUpdated = repository.save(tenantMapper.toEntity(tenant))
+        if (file != null)
+            tenantInDatabase.pathImage = uploadService.uploadImage(file)
+
+        val tenantUpdated = repository.save(tenantMapper.toEntity(tenantInDatabase))
         return tenantMapper.toDomain(tenantUpdated)
     }
 
-    fun restrictedUpdate(id: String, restrictedTenant: RestrictedTenantDomain, file: MultipartFile?): TenantDomain {
+    fun selfUpdate(id: String, restrictedTenant: SelfUpdateTenantDomain, file: MultipartFile?): TenantDomain {
         val tenant = tenantMapper.toDomain(repository.findById(id).orElseThrow {
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
         })
@@ -94,7 +103,14 @@ class TenantService(
         }
     }
 
-    private fun checkUniqueFields(tenant: RestrictedTenantDomain, id: String = "") {
+    private fun checkUniqueFields(tenant: SelfUpdateTenantDomain, id: String = "") {
+        repository.findByEmail(tenant.email).ifPresent {
+            if (it.email == tenant.email && it.id != id)
+                throw DuplicateResourceException(RuntimeErrorEnum.ERR0005)
+        }
+    }
+
+    private fun checkUniqueFields(tenant: LandLordUpdateTenantDomain, id: String = "") {
         repository.findByEmail(tenant.email).ifPresent {
             if (it.email == tenant.email && it.id != id)
                 throw DuplicateResourceException(RuntimeErrorEnum.ERR0005)
