@@ -18,7 +18,5 @@ enum class RuntimeErrorEnum(val code: String, val message: String) {
     ERR0015("RESOURCE_NOT_FOUND", "A reportação solicitada não foi encontrada"),
     ERR0016("RESOURCE_NOT_FOUND", "A locação solicitada não foi encontrada"),
     ERR0017("RESOURCE_NOT_FOUND", "O pagamento solicitado não foi encontrado"),
-    ERR0018("AUTHENTICATION_FAILED", "Não foi possível realizar a autenticação"),
-    ERR0019("AUTHENTICATION_FAILED", "Token não encontrado")
-
+    ERR0018("AUTHENTICATION_FAILED", "Token não encontrado")
 }

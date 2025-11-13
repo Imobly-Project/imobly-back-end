@@ -2,6 +2,8 @@ package com.imobly.imobly.configuration.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -13,6 +15,10 @@ class SecurityConfig(val jwtAuthFilter: JwtAuthFilter) {
 
     @Bean
     fun getEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+
+    @Bean
+    fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager =
+        authenticationConfiguration.authenticationManager
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -31,7 +37,7 @@ class SecurityConfig(val jwtAuthFilter: JwtAuthFilter) {
 
                     .requestMatchers("/graficos/**").hasRole("LAND_LORD")
 
-                    .requestMatchers("/categorias/encontrartodos", "/categorias/encontrarporid/**").hasRole("TENANT")
+                    .requestMatchers("/categorias/encontrartodos", "/categorias/encontrarporid/**").permitAll()
                     .requestMatchers("/categorias/inserir", "/categorias/atualizar/**", "/categorias/deletar/**").hasRole("LAND_LORD")
 
                     .requestMatchers("/reportacoes/encontrartodos", "/reportacoes/encontrarporid/**", "/reportacoes/inserir").hasRole("TENANT")

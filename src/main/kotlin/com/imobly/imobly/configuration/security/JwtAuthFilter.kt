@@ -1,30 +1,31 @@
 package com.imobly.imobly.configuration.security
 
-import com.imobly.imobly.exceptions.AuthenticationFailedException
+import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
-import com.imobly.imobly.services.security.LandLordUserDetailsService
-import com.imobly.imobly.services.security.TenantUserDetailsService
+import com.imobly.imobly.persistences.landlord.mappers.LandLordPersistenceMapper
+import com.imobly.imobly.persistences.landlord.repositories.LandLordRepository
+import com.imobly.imobly.persistences.tenant.mappers.TenantPersistenceMapper
+import com.imobly.imobly.persistences.tenant.repositories.TenantRepository
 import com.imobly.imobly.services.security.TokenService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.hibernate.validator.internal.util.logging.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-import kotlin.jvm.java
 
 @Component
 class JwtAuthFilter(
     private val tokenService: TokenService,
-    private val landLordUserDetailsService: LandLordUserDetailsService,
-    private val tenantUserDetailsService: TenantUserDetailsService
+    private val tenantRepository: TenantRepository,
+    private val tenantMapper: TenantPersistenceMapper,
+    private val landLordRepository: LandLordRepository,
+    private val landLordMapper: LandLordPersistenceMapper
 ): OncePerRequestFilter() {
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val authHeader = request.getHeader("Authorization")
-        var authenticated = false
         if (authHeader != null) {
             val token = tokenService.extractToken(authHeader)
             val username = tokenService.extractUsername(token)
@@ -33,8 +34,12 @@ class JwtAuthFilter(
 
             if (!expired) {
                 val userDetails = when (role) {
-                    "LAND_LORD" -> landLordUserDetailsService.loadUserByUsername(username)
-                    "TENANT" -> tenantUserDetailsService.loadUserByUsername(username)
+                    "LAND_LORD" -> landLordMapper.toRegisteredUserDomain(landLordRepository.findByEmail(username).orElseThrow {
+                        throw ResourceNotFoundException(RuntimeErrorEnum.ERR0013)
+                    })
+                    "TENANT" -> tenantMapper.toRegisteredUserDomain(tenantRepository.findByEmail(username).orElseThrow {
+                        throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
+                    })
                     else -> null
                 }
                 if (userDetails != null) {
@@ -44,14 +49,9 @@ class JwtAuthFilter(
                         userDetails.authorities
                     )
                     SecurityContextHolder.getContext().authentication = authToken
-                    authenticated = true
                 }
-            }
-            if (!authenticated) {
-                throw AuthenticationFailedException(RuntimeErrorEnum.ERR0018)
             }
         }
         filterChain.doFilter(request, response)
     }
-
 }

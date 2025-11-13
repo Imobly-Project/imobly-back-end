@@ -29,7 +29,7 @@ class TokenService(@field:Value("\${jwt.secret}") private val secret: String = "
 
     fun extractToken(authHeader: String): String =
             if (authHeader.contains("Bearer")) authHeader.substring(7)
-            else throw AuthenticationFailedException(RuntimeErrorEnum.ERR0019)
+            else throw AuthenticationFailedException(RuntimeErrorEnum.ERR0018)
 
     fun extractUsername(token: String): String = extractAllClaims(token).subject
     fun extractRole(token: String): String = extractAllClaims(token)["role"].toString()

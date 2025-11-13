@@ -7,22 +7,20 @@ import com.imobly.imobly.controllers.landlord.mappers.LandLordWebMapper
 import com.imobly.imobly.controllers.tenant.dtos.TenantDTO
 import com.imobly.imobly.controllers.tenant.mappers.TenantWebMapper
 import com.imobly.imobly.domains.enums.UserRoleEnum
+import com.imobly.imobly.domains.users.RegisteredUserDomain
 import com.imobly.imobly.services.LandLordService
 import com.imobly.imobly.services.TenantService
-import com.imobly.imobly.services.security.LandLordUserDetailsService
-import com.imobly.imobly.services.security.TenantUserDetailsService
 import com.imobly.imobly.services.security.TokenService
+import com.imobly.imobly.services.security.UserDetailsService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestPart
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-import java.util.Calendar
+import java.util.*
 
 @RestController
 @RequestMapping("/autenticacoes")
@@ -31,8 +29,8 @@ class AuthenticationController(
     val tenantMapper: TenantWebMapper,
     val landLordService: LandLordService,
     val landLordMapper: LandLordWebMapper,
-    val landLordUserDetailsService: LandLordUserDetailsService,
-    val tenantUserDetailsService: TenantUserDetailsService,
+    val authenticationManager: AuthenticationManager,
+    val userDetailsService: UserDetailsService,
     val tokenService: TokenService
 ) {
 
@@ -46,9 +44,12 @@ class AuthenticationController(
 
     @PostMapping("/locatario/logar")
     fun signInTenant(@Valid @RequestBody auth: AuthDTO): ResponseEntity<TokenDTO> {
-        tenantUserDetailsService.loadUserByUsername(auth.email)
-        val tenant = tenantService.findByEmail(auth.email ?: "")
-        return ResponseEntity.ok(generateToken(auth, tenant.role, tenant.id ?: ""))
+        userDetailsService.role = UserRoleEnum.TENANT
+        val authenticate = authenticationManager.authenticate(
+            UsernamePasswordAuthenticationToken(auth.email, auth.password)
+        )
+        val user = authenticate.principal as RegisteredUserDomain
+        return ResponseEntity.ok(generateToken(user.email, user.role, user.id ?: ""))
     }
 
     @PostMapping("/locador/cadastrar")
@@ -59,17 +60,20 @@ class AuthenticationController(
 
     @PostMapping("/locador/logar")
     fun signInLandLord(@Valid @RequestBody auth: AuthDTO):  ResponseEntity<TokenDTO> {
-        landLordUserDetailsService.loadUserByUsername(auth.email)
-        val landLord = landLordService.findByEmail(auth.email ?: "")
-        return ResponseEntity.ok(generateToken(auth, landLord.role, landLord.id ?: ""))
+        userDetailsService.role = UserRoleEnum.LAND_LORD
+        val authenticate = authenticationManager.authenticate(
+            UsernamePasswordAuthenticationToken(auth.email, auth.password)
+        )
+        val user = authenticate.principal as RegisteredUserDomain
+        return ResponseEntity.ok(generateToken(user.email, user.role, user.id ?: ""))
     }
 
-    private fun generateToken(auth: AuthDTO, role: UserRoleEnum, id: String): TokenDTO {
+    private fun generateToken(email: String, role: UserRoleEnum, id: String): TokenDTO {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH, 1)
         val date = calendar.time
         val token = tokenService.generateToken(
-            subject = auth.email ?: "",
+            subject = email,
             expiration = date,
             additionalClaims = mapOf(Pair("role", role), Pair("id", id))
         )
