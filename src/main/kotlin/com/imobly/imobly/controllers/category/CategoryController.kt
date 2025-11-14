@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -23,9 +24,9 @@ class CategoryController(
     val service: CategoryService, val mapper: CategoryWebMapper
 ) {
     @GetMapping("/encontrartodos")
-    fun findAll(): ResponseEntity<List<CategoryDTO>> =
+    fun findAllByTitle(@RequestParam("titulo") title: String): ResponseEntity<List<CategoryDTO>> =
         ResponseEntity.ok().body(
-            mapper.toDTOs(service.findAll())
+            mapper.toDTOs(service.findAllByTitle(title))
         )
 
     @GetMapping("/encontrarporid/{id}")

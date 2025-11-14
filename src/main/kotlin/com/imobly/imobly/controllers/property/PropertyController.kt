@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
@@ -22,8 +23,8 @@ import org.springframework.web.multipart.MultipartFile
 class PropertyController(val service: PropertyService, val mapper: PropertyWebMapper) {
 
     @GetMapping("/encontrartodos")
-    fun findAll(): ResponseEntity<List<PropertyDTO>> =
-        ResponseEntity.ok().body(mapper.toDTOs(service.findAll()))
+    fun findAll(@RequestParam("titulo") title: String): ResponseEntity<List<PropertyDTO>> =
+        ResponseEntity.ok().body(mapper.toDTOs(service.findAllByTitle(title)))
 
 
     @GetMapping("/encontrarporid/{id}")

@@ -7,6 +7,8 @@ import java.util.Optional
 
 @Repository
 interface TenantRepository : JpaRepository<TenantEntity, String> {
+
+    fun findByFirstNameContainingOrLastNameContainingOrCpfContainingAllIgnoreCase(firstName: String, lastName: String, cpf: String): List<TenantEntity>
     fun findByEmail(email: String): Optional<TenantEntity>
     fun findByRg(rg: String): Optional<TenantEntity>
     fun findByCpf(cpf: String): Optional<TenantEntity>

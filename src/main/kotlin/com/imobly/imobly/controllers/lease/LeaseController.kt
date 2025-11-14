@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -28,8 +29,8 @@ class LeaseController(
 ) {
 
     @GetMapping("/encontrartodos")
-    fun findAll(): ResponseEntity<List<LeaseDTO>> =
-        ResponseEntity.ok().body(leaseMapper.toDTOs(service.findAll()))
+    fun findAllByTenantNameAndPropertyTitle(@RequestParam("nomeoutitulo") nameOrTitle: String): ResponseEntity<List<LeaseDTO>> =
+        ResponseEntity.ok().body(leaseMapper.toDTOs(service.findAllByTenantNameOrPropertyTitle(nameOrTitle)))
 
     @GetMapping("/encontrarporid/{id}")
     fun findById(@PathVariable id: String): ResponseEntity<LeaseDTO> =

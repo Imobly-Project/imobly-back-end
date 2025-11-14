@@ -14,8 +14,8 @@ import java.util.Collections
 class CategoryService(
     private val repository: CategoryRepository, private val mapper: CategoryPersistenceMapper
 ) {
-    fun findAll(): List<CategoryDomain> {
-        val list = mapper.toDomains(repository.findAll())
+    fun findAllByTitle(title: String): List<CategoryDomain> {
+        val list = mapper.toDomains(repository.findByTitleContainingAllIgnoreCase(title))
         Collections.sort(list)
         return list
     }

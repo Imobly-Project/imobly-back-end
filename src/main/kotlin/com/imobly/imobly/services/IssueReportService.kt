@@ -20,8 +20,10 @@ class IssueReportService(
     private val tenantRepository: TenantRepository,
     private val mapper: ReportPersistenceMapper
 ) {
-    fun findAll(): List<ReportDomain> {
-        val list = mapper.toDomains(reportRepository.findAll())
+    fun findAllByTitleOrDescription(titleOrMessage: String): List<ReportDomain> {
+        val list = mapper.toDomains(
+            reportRepository.findByTitleContainingOrMessageContainingAllIgnoreCase(titleOrMessage, titleOrMessage)
+        )
         Collections.sort(list)
         return list
     }

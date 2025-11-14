@@ -20,8 +20,8 @@ class PropertyService(
     private val uploadService: UploadService,
     private val mapper: PropertyPersistenceMapper
 ) {
-    fun findAll(): List<PropertyDomain> {
-        val list = mapper.toDomains(propertyRepository.findAll())
+    fun findAllByTitle(title: String): List<PropertyDomain> {
+        val list = mapper.toDomains(propertyRepository.findByTitleContainingAllIgnoreCase(title))
         Collections.sort(list)
         return list
     }

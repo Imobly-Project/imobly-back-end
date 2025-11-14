@@ -41,8 +41,8 @@ class TenantController(
     }
 
     @GetMapping("/encontrartodos")
-    fun findAll(): ResponseEntity<List<TenantDTO>> =
-        ResponseEntity.ok().body(mapper.toDTOs(service.findAll()))
+    fun findAllByNameAndCpf(@RequestParam("nomeoucpf") nameOrCpf: String): ResponseEntity<List<TenantDTO>> =
+        ResponseEntity.ok().body(mapper.toDTOs(service.findAllByNameOrCpf(nameOrCpf)))
 
     @PutMapping("/atualizar/{id}")
     fun updateByLandLord(

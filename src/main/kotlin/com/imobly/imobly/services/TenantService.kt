@@ -21,8 +21,12 @@ class TenantService(
     private val tenantMapper: TenantPersistenceMapper
 ) {
 
-    fun findAll(): List<TenantDomain>  {
-        val list = tenantMapper.toDomains(repository.findAll())
+    fun findAllByNameOrCpf(nameOrCpf: String): List<TenantDomain>  {
+        val list = tenantMapper.toDomains(
+            repository.findByFirstNameContainingOrLastNameContainingOrCpfContainingAllIgnoreCase(
+                nameOrCpf, nameOrCpf, nameOrCpf
+            )
+        )
         Collections.sort(list)
         return list
     }
