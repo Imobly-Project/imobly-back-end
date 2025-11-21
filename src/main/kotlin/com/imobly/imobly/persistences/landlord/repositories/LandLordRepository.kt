@@ -8,4 +8,7 @@ interface LandLordRepository: JpaRepository<LandLordEntity, String> {
     fun findByEmail(email: String): Optional<LandLordEntity>
 
     fun existsByEmailAndIdNot(email: String, id: String): Boolean
+
+    fun existsByEmail(email: String) : Boolean
+
 }

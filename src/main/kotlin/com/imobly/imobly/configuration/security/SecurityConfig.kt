@@ -33,6 +33,8 @@ class SecurityConfig(val jwtAuthFilter: JwtAuthFilter) {
                 auth
                     .requestMatchers("/autenticacoes/**").permitAll()
 
+                    .requestMatchers("/redefinirsenha/**").permitAll()
+
                     .requestMatchers("/locadores/**").hasRole("LAND_LORD")
 
                     .requestMatchers("/graficos/**").hasRole("LAND_LORD")

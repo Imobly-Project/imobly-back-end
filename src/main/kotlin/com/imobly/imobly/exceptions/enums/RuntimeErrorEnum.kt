@@ -19,5 +19,8 @@ enum class RuntimeErrorEnum(val code: String, val message: String) {
     ERR0016("RESOURCE_NOT_FOUND", "A locação solicitada não foi encontrada"),
     ERR0017("RESOURCE_NOT_FOUND", "O pagamento solicitado não foi encontrado"),
     ERR0018("AUTHENTICATION_FAILED", "O Token não foi encontrado"),
-    ERR0019("AUTHENTICATION_FAILED", "O E-mail ou a senha estão incorretos")
+    ERR0019("AUTHENTICATION_FAILED", "O E-mail ou a senha estão incorretos"),
+    ERR0020("RESOURCE_NOT_FOUND", "O email informado não foi encontrado"),
+    ERR0021("RESOURCE_NOT_FOUND", "O codigo solicitado está incorreto ou foi expirado"),
+    ERR0022("MAIL_ERROR", "Não foi possivel enviar o email")
 }
