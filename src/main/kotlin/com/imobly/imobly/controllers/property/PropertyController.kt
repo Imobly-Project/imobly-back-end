@@ -4,6 +4,8 @@ import com.imobly.imobly.controllers.category.mappers.CategoryWebMapper
 import com.imobly.imobly.controllers.property.dtos.PropertyDTO
 import com.imobly.imobly.controllers.property.mappers.PropertyWebMapper
 import com.imobly.imobly.services.PropertyService
+import com.imobly.imobly.services.security.TokenService
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -20,12 +22,21 @@ import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/propriedades")
-class PropertyController(val service: PropertyService, val mapper: PropertyWebMapper) {
+class PropertyController(
+    private val service: PropertyService,
+    private val mapper: PropertyWebMapper,
+    private val tokenService: TokenService
+) {
 
     @GetMapping("/encontrartodos")
-    fun findAll(@RequestParam("titulo") title: String): ResponseEntity<List<PropertyDTO>> =
+    fun findAllByTitle(@RequestParam("titulo") title: String): ResponseEntity<List<PropertyDTO>> =
         ResponseEntity.ok().body(mapper.toDTOs(service.findAllByTitle(title)))
 
+    @GetMapping("/encontrarporperfil")
+    fun findByTenantIdAndTitle(@RequestParam("titulo") title: String, request: HttpServletRequest): ResponseEntity<List<PropertyDTO>> {
+        val id = tokenService.getIdFromRequest(request)
+        return ResponseEntity.ok().body(mapper.toDTOs(service.findByTenantIdAndTitle(title, id)))
+    }
 
     @GetMapping("/encontrarporid/{id}")
     fun findById(@PathVariable id: String): ResponseEntity<PropertyDTO> =

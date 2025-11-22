@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ReportRepository: JpaRepository<ReportEntity, String> {
     fun findByTitleContainingOrMessageContainingAllIgnoreCase(title: String, message: String): List<ReportEntity>
+
+    fun findByTenant_IdAndTitleContainingIgnoreCaseOrTenant_IdAndMessageContainingIgnoreCase(id1: String, title: String, id2: String, message: String): List<ReportEntity>
 }

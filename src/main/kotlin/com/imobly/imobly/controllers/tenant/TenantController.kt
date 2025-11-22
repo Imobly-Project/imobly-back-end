@@ -35,9 +35,16 @@ class TenantController(
         val id = tokenService.getIdFromRequest(request)
         return ResponseEntity.ok().body(
             mapper.toDTO(
-                service.selfUpdate(id, mapper.toDomain(tenant), file)
+                service.selfUpdate( id, mapper.toDomain(tenant), file )
             )
         )
+    }
+
+    @DeleteMapping("/deletarperfil")
+    fun deleteProfile(request: HttpServletRequest): ResponseEntity<Void> {
+        val id = tokenService.getIdFromRequest(request)
+        service.delete(id)
+        return ResponseEntity.ok().build()
     }
 
     @GetMapping("/encontrartodos")
@@ -50,11 +57,11 @@ class TenantController(
         @Validated @RequestPart("tenant") tenant: LandLordUpdateTenantDTO,
         @RequestPart(value = "file", required = false) file: MultipartFile?
     ): ResponseEntity<TenantDTO> = ResponseEntity.ok().body(
-        mapper.toDTO(service.landLordUpdate(id,mapper.toDomain(tenant),file))
+        mapper.toDTO(service.landLordUpdate( id,mapper.toDomain(tenant), file ))
     )
 
     @DeleteMapping("/deletar/{id}")
-    fun delete(@PathVariable id: String): ResponseEntity<Void> {
+    fun deleteByLandLord(@PathVariable id: String): ResponseEntity<Void> {
         service.delete(id)
         return ResponseEntity.ok().build()
     }

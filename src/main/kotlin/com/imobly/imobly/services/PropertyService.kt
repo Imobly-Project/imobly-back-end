@@ -6,6 +6,7 @@ import com.imobly.imobly.domains.PropertyDomain
 import com.imobly.imobly.exceptions.InvalidArgumentsException
 import com.imobly.imobly.persistences.category.mappers.CategoryPersistenceMapper
 import com.imobly.imobly.persistences.category.repositories.CategoryRepository
+import com.imobly.imobly.persistences.lease.repositories.LeaseRepository
 import com.imobly.imobly.persistences.property.mappers.PropertyPersistenceMapper
 import com.imobly.imobly.persistences.property.repositories.PropertyRepository
 import jdk.jfr.Category
@@ -17,6 +18,7 @@ import java.util.Collections
 class PropertyService(
     private val propertyRepository: PropertyRepository,
     private val categoryRepository: CategoryRepository,
+    private val leaseRepository: LeaseRepository,
     private val uploadService: UploadService,
     private val mapper: PropertyPersistenceMapper
 ) {
@@ -25,10 +27,23 @@ class PropertyService(
         Collections.sort(list)
         return list
     }
+
+    fun findByTenantIdAndTitle(title: String, id: String): List<PropertyDomain> {
+        val list = mapper.toDomains(
+            leaseRepository.findByTenant_IdAndProperty_TitleContainingIgnoreCase(id, title)
+                .map { it.property }
+        )
+
+        Collections.sort(list)
+        return list
+    }
+
     fun findById(id: String): PropertyDomain =
-        mapper.toDomain(propertyRepository.findById(id).orElseThrow({
-            throw ResourceNotFoundException(RuntimeErrorEnum.ERR0011)
-        }), CategoryPersistenceMapper())
+        mapper.toDomain(propertyRepository.findById(id).orElseThrow {
+                throw ResourceNotFoundException(RuntimeErrorEnum.ERR0011)
+            },
+            CategoryPersistenceMapper()
+        )
 
 
     fun insert(property: PropertyDomain, files: List<MultipartFile>?): PropertyDomain {

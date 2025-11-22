@@ -17,6 +17,7 @@ data class ReportDTO(
 
     val message: String?,
 
+    @field:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm")
     val moment: LocalDateTime?,
 
     val status: ReportStatusEnum?,

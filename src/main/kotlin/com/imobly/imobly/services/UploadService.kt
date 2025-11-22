@@ -20,10 +20,8 @@ class UploadService(private val amazonS3Client: AmazonS3) {
 
     fun uploadImage(objectFile: MultipartFile): String {
         val extension: String = getExtension(objectFile)
-
         if (!supportedMediaTypes.contains(extension))
             throw UnsupportedMediaTypeException(RuntimeErrorEnum.ERR0004)
-
         val fileName: String = getName(extension)
         try {
             amazonS3Client.putObject(
@@ -62,11 +60,11 @@ class UploadService(private val amazonS3Client: AmazonS3) {
 
     private fun getName(extension: String): String = UUID.randomUUID().toString() + extension
 
-    private fun getExtension(objectFile: MultipartFile): String {
-        if (objectFile.originalFilename != null)
-            return objectFile.originalFilename!!
+    private fun getExtension(objectFile: MultipartFile): String =
+        if (objectFile.originalFilename != null && objectFile.originalFilename!!.contains("."))
+            objectFile.originalFilename!!
                 .substring(objectFile.originalFilename!!.lastIndexOf("."))
                 .lowercase(getDefault())
+
         else throw UnsupportedMediaTypeException(RuntimeErrorEnum.ERR0008)
-    }
 }

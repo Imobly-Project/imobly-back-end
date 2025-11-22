@@ -39,7 +39,7 @@ class AuthenticationController(
         @Validated @RequestPart ("tenant") tenant: TenantDTO,
         @RequestPart(value = "file") file: MultipartFile?
     ): ResponseEntity<TenantDTO> = ResponseEntity.status(HttpStatus.CREATED).body(
-        tenantMapper.toDTO(tenantService.insert(tenantMapper.toDomain(tenant), file))
+        tenantMapper.toDTO(tenantService.createAccount(tenantMapper.toDomain(tenant), file))
     )
 
     @PostMapping("/locatario/logar")
@@ -55,7 +55,7 @@ class AuthenticationController(
     @PostMapping("/locador/cadastrar")
     fun signUpLandLord(@Valid @RequestBody landlord: LandLordDTO): ResponseEntity<LandLordDTO> =
         ResponseEntity.status(HttpStatus.CREATED).body(
-            landLordMapper.toDTO(landLordService.insert(landLordMapper.toDomain(landlord)))
+            landLordMapper.toDTO(landLordService.createAccount(landLordMapper.toDomain(landlord)))
         )
 
     @PostMapping("/locador/logar")

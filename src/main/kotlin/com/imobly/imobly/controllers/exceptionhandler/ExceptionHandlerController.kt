@@ -6,6 +6,7 @@ import com.imobly.imobly.exceptions.AuthenticationFailedException
 import com.imobly.imobly.exceptions.DuplicateResourceException
 import com.imobly.imobly.exceptions.InternalErrorException
 import com.imobly.imobly.exceptions.InvalidArgumentsException
+import com.imobly.imobly.exceptions.OperationNotAllowedException
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.UnsupportedMediaTypeException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
@@ -53,6 +54,22 @@ class ExceptionHandlerController {
     ): ResponseEntity<ErrorMessageDTO> {
         val enum: RuntimeErrorEnum = exception.errorEnum
         val status: HttpStatus = HttpStatus.NOT_FOUND
+        val error = ErrorMessageDTO(
+            code = enum.code,
+            status = status.value(),
+            message = enum.message,
+            timestamp = Instant.now(),
+            path = request.requestURI
+        )
+        return ResponseEntity.status(status).body(error)
+    }
+
+    @ExceptionHandler(OperationNotAllowedException::class)
+    fun operationNotAllowed(
+        exception: OperationNotAllowedException, request: HttpServletRequest
+    ): ResponseEntity<ErrorMessageDTO> {
+        val enum: RuntimeErrorEnum = exception.errorEnum
+        val status: HttpStatus = HttpStatus.CONFLICT
         val error = ErrorMessageDTO(
             code = enum.code,
             status = status.value(),

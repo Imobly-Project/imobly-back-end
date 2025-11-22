@@ -29,10 +29,18 @@ class IssueReportController(
     private val tokenService: TokenService
 ) {
 
+    @GetMapping("/encontrarporperfil")
+    fun findByTenantIdAndTitleOrMessage(@RequestParam("titulooumensagem") titleOrMessage: String, request: HttpServletRequest): ResponseEntity<List<ReportDTO>> {
+        val tenantId = tokenService.getIdFromRequest(request)
+        return ResponseEntity.ok().body(
+            mapper.toDTOs(service.findByTenantIdAndTitleOrMessage(tenantId, titleOrMessage))
+        )
+    }
+
     @GetMapping("/encontrartodos")
-    fun findAllByTitleAndDescription(@RequestParam("titulooumensagem") titleOrMessage: String): ResponseEntity<List<ReportDTO>> =
+    fun findAllByTitleOrMessage(@RequestParam("titulooumensagem") titleOrMessage: String): ResponseEntity<List<ReportDTO>> =
         ResponseEntity.ok().body(
-            mapper.toDTOs(service.findAllByTitleOrDescription(titleOrMessage))
+            mapper.toDTOs(service.findAllByTitleOrMessage(titleOrMessage))
         )
 
     @GetMapping("/encontrarporid/{id}")
@@ -41,11 +49,11 @@ class IssueReportController(
             mapper.toDTO(service.findById(id))
         )
 
-    @PostMapping("/inserir")
-    fun insert(@Valid @RequestBody report: TenantCreateReportDTO, request: HttpServletRequest): ResponseEntity<ReportDTO> {
+    @PostMapping("/criar")
+    fun create(@Valid @RequestBody report: TenantCreateReportDTO, request: HttpServletRequest): ResponseEntity<ReportDTO> {
         val tenantId = tokenService.getIdFromRequest(request)
         return ResponseEntity.status(HttpStatus.CREATED).body(
-            mapper.toDTO(service.insert(mapper.toDomain(report), tenantId))
+            mapper.toDTO(service.create(mapper.toDomain(report), tenantId))
         )
     }
 

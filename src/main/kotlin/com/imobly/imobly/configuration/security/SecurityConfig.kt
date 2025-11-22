@@ -42,8 +42,8 @@ class SecurityConfig(val jwtAuthFilter: JwtAuthFilter) {
                     .requestMatchers("/categorias/encontrartodos", "/categorias/encontrarporid/**").permitAll()
                     .requestMatchers("/categorias/inserir", "/categorias/atualizar/**", "/categorias/deletar/**").hasRole("LAND_LORD")
 
-                    .requestMatchers("/reportacoes/encontrartodos", "/reportacoes/encontrarporid/**", "/reportacoes/inserir").hasRole("TENANT")
-                    .requestMatchers("/reportacoes/responderreportacao/**", "/reportacoes/atualizarstatus/**", "/reportacoes/deletar/**").hasRole("LAND_LORD")
+                    .requestMatchers(  "/reportacoes/encontrarporperfil", "/reportacoes/criar").hasRole("TENANT")
+                    .requestMatchers("/reportacoes/encontrartodos", "/reportacoes/responderreportacao/**", "/reportacoes/atualizarstatus/**", "/reportacoes/deletar/**").hasRole("LAND_LORD")
 
                     .requestMatchers("/propriedades/encontrartodos", "/propriedades/encontrarporid/**").permitAll()
                     .requestMatchers("/propriedades/inserir", "/propriedades/atualizar/**", "/propriedades/deletar/**").hasRole("LAND_LORD")
@@ -51,7 +51,7 @@ class SecurityConfig(val jwtAuthFilter: JwtAuthFilter) {
                     .requestMatchers("/locacoes/encontrartodos", "/locacoes/encontrarporid/**").hasRole("TENANT")
                     .requestMatchers("/locacoes/inserir", "/locacoes/atualizar/**", "/locacoes/alternarativo/**").hasRole("LAND_LORD")
 
-                    .requestMatchers("/locatarios/encontrarperfil").hasRole("TENANT")
+                    .requestMatchers("/locatarios/encontrarperfil", "/locatarios/atualizarperfil", "/locatarios/deletarperfil").hasRole("TENANT")
                     .requestMatchers("/locatarios/encontrartodos", "/locatarios/atualizar/**", "/locatarios/deletar/**").hasRole("LAND_LORD")
 
                     .requestMatchers("/pagamentos/encontrartodos", "/pagamentos/encontrarporid/**").hasRole("TENANT")

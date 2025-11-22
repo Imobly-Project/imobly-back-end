@@ -24,7 +24,7 @@ class LandLordService(private val repository: LandLordRepository, private val ma
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0013)
         })
 
-    fun insert(landLord: LandLordDomain): LandLordDomain {
+    fun createAccount(landLord: LandLordDomain): LandLordDomain {
         checkUniqueFields(landLord)
         landLord.role = UserRoleEnum.LAND_LORD
         landLord.passwd = BCryptPasswordEncoder().encode(landLord.password)
@@ -32,7 +32,7 @@ class LandLordService(private val repository: LandLordRepository, private val ma
         return mapper.toDomain(landLordSaved)
     }
 
-    fun update(id: String, landLord: LandLordDomain): LandLordDomain {
+    fun updateAccount(id: String, landLord: LandLordDomain): LandLordDomain {
         val landLordFound = mapper.toDomain(repository.findById(id).orElseThrow {
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0013)
         })
@@ -48,7 +48,7 @@ class LandLordService(private val repository: LandLordRepository, private val ma
         return mapper.toDomain(landLordUpdated)
     }
 
-    fun delete(id: String) {
+    fun deleteAccount(id: String) {
         if (!repository.existsById(id))
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0013)
         repository.deleteById(id)

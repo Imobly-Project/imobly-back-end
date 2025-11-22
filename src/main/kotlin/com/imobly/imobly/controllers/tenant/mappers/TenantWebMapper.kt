@@ -3,9 +3,9 @@ package com.imobly.imobly.controllers.tenant.mappers
 import com.imobly.imobly.controllers.property.dtos.AddressDTO
 import com.imobly.imobly.controllers.property.mappers.AddressWebMapper
 import com.imobly.imobly.controllers.tenant.dtos.LandLordUpdateTenantDTO
+import com.imobly.imobly.controllers.tenant.dtos.SelfUpdateTenantDTO
 import com.imobly.imobly.controllers.tenant.dtos.TelephoneDTO
 import com.imobly.imobly.controllers.tenant.dtos.TenantDTO
-import com.imobly.imobly.controllers.tenant.dtos.SelfUpdateTenantDTO
 import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.domains.enums.MaritalStatusEnum
 import org.springframework.stereotype.Component
@@ -42,9 +42,6 @@ class TenantWebMapper(val addressMapper: AddressWebMapper) {
                 tenant.telephones?.telephone3?.trim() ?: ""
             )
         )
-
-    fun toDomainOnlyId(tenantId: String): TenantDomain =
-        TenantDomain(id = tenantId)
 
     fun toDomain(tenant: TenantDTO): TenantDomain =
         TenantDomain(

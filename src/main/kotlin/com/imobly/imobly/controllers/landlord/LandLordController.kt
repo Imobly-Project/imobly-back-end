@@ -35,14 +35,14 @@ class LandLordController(
     fun updateProfile(request: HttpServletRequest, @Valid @RequestBody landlord: UpdateLandLordDTO): ResponseEntity<LandLordDTO> {
         val id = tokenService.getIdFromRequest(request)
         return ResponseEntity.ok().body(
-            mapper.toDTO(service.update(id, mapper.toDomain(landlord)))
+            mapper.toDTO(service.updateAccount(id, mapper.toDomain(landlord)))
         )
     }
 
     @DeleteMapping("/deletarperfil")
     fun deleteProfile(request: HttpServletRequest): ResponseEntity<Void> {
         val id = tokenService.getIdFromRequest(request)
-        service.delete(id)
+        service.deleteAccount(id)
         return ResponseEntity.ok().build()
     }
 }
