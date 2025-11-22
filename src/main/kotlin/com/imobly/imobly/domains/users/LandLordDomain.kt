@@ -9,5 +9,6 @@ class LandLordDomain(
     email: String = "",
     password: String = "",
     telephones: List<String> = emptyList(),
-    role: UserRoleEnum = UserRoleEnum.LAND_LORD
+    role: UserRoleEnum = UserRoleEnum.LAND_LORD,
+    var recoveryCode: String?=null
 ): RegisteredUserDomain(id, firstName, lastName, email, telephones, password, role)
