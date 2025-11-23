@@ -2,6 +2,7 @@ package com.imobly.imobly.controllers.landlord.mappers
 
 import com.imobly.imobly.controllers.landlord.dtos.LandLordDTO
 import com.imobly.imobly.controllers.landlord.dtos.UpdateLandLordDTO
+import com.imobly.imobly.controllers.landlord.dtos.UpdateLandLordEmailDTO
 import com.imobly.imobly.controllers.tenant.dtos.TelephoneDTO
 import com.imobly.imobly.domains.enums.UserRoleEnum
 import com.imobly.imobly.domains.users.LandLordDomain
@@ -13,12 +14,16 @@ class LandLordWebMapper {
         LandLordDomain(
             firstName = landLord.firstName?.trim()  ?: "",
             lastName = landLord.lastName?.trim()  ?: "",
-            email = landLord.email?.trim()  ?: "",
             telephones = listOf(
                 landLord.telephones?.telephone1?.trim() ?: "",
                 landLord.telephones?.telephone2?.trim() ?: "",
                 landLord.telephones?.telephone3?.trim() ?: ""
             )
+        )
+
+    fun toDomain(landLord: UpdateLandLordEmailDTO): LandLordDomain =
+        LandLordDomain(
+            email = landLord.email?.trim()  ?: ""
         )
 
     fun toDomain(landLord: LandLordDTO): LandLordDomain =

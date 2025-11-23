@@ -31,8 +31,5 @@ class LandLordEntity (
     val role: UserRoleEnum,
 
     @Column(name = "senha", nullable = false, length = 700)
-    val  password: String = "",
-
-    @Column(name = "codigo_recuperacao", nullable = true, length = 6)
-    val  recoveryCode: String?,
+    val  password: String = ""
 )

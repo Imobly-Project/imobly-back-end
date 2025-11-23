@@ -16,8 +16,7 @@ class LandLordPersistenceMapper {
             landLord.email,
             landLord.password,
             landLord.telephones,
-            landLord.role,
-            landLord.recoveryCode
+            landLord.role
         )
 
     fun toDomains(landLords: List<LandLordEntity>): List<LandLordDomain> =
@@ -31,8 +30,7 @@ class LandLordPersistenceMapper {
             landLord.email,
             landLord.telephones,
             landLord.role,
-            landLord.password,
-            landLord.recoveryCode
+            landLord.password
         )
 
     fun toRegisteredUserDomain(landLord: LandLordEntity): RegisteredUserDomain =

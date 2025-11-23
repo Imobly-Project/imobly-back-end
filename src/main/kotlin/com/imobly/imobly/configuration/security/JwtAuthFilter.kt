@@ -10,6 +10,7 @@ import com.imobly.imobly.services.security.TokenService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -35,10 +36,10 @@ class JwtAuthFilter(
             if (!expired) {
                 val userDetails = when (role) {
                     "LAND_LORD" -> landLordMapper.toRegisteredUserDomain(landLordRepository.findByEmail(username).orElseThrow {
-                        throw ResourceNotFoundException(RuntimeErrorEnum.ERR0013)
+                        throw BadCredentialsException("Land Lord E-mail not found")
                     })
                     "TENANT" -> tenantMapper.toRegisteredUserDomain(tenantRepository.findByEmail(username).orElseThrow {
-                        throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
+                        throw BadCredentialsException("Tenant E-mail not found")
                     })
                     else -> null
                 }

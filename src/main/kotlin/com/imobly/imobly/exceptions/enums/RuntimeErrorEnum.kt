@@ -21,8 +21,10 @@ enum class RuntimeErrorEnum(val code: String, val message: String) {
     ERR0018("AUTHENTICATION_FAILED", "O Token não foi encontrado"),
     ERR0019("AUTHENTICATION_FAILED", "O E-mail ou a senha estão incorretos"),
     ERR0020("RESOURCE_NOT_FOUND", "O email informado não foi encontrado"),
-    ERR0021("RESOURCE_NOT_FOUND", "O codigo solicitado está incorreto ou foi expirado"),
-    ERR0022("MAIL_ERROR", "Não foi possivel enviar o email"),
+    ERR0021("OPERATION_NOT_ALLOWED", "O codigo solicitado está incorreto ou foi expirado"),
+    ERR0022("EMAIL_ERROR", "Houve um problema ao enviar o email"),
     ERR0023("OPERATION_NOT_ALLOWED", "Não é possível deletar, pois esta conta está vinculada a um contrato"),
-    ERR0024("OPERATION_NOT_ALLOWED", "Esta propriedade não lhe pertence")
+    ERR0024("OPERATION_NOT_ALLOWED", "Esta propriedade não lhe pertence"),
+    ERR0025("OPERATION_NOT_ALLOWED", "Só é possível existir uma única conta de locador"),
+
 }

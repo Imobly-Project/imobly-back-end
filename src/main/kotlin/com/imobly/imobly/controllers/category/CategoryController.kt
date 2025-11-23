@@ -35,7 +35,7 @@ class CategoryController(
             mapper.toDTO(service.findById(id), PropertyWebMapper(AddressWebMapper()))
         )
 
-    @PostMapping("/inserir")
+    @PostMapping("/criar")
     fun insert(@Valid @RequestBody category: CategoryDTO): ResponseEntity<CategoryDTO> =
         ResponseEntity.status(HttpStatus.CREATED).body(
             mapper.toDTO(

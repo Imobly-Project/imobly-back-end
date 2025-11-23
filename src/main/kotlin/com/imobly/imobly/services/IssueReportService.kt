@@ -48,10 +48,8 @@ class IssueReportService(
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
         if (!propertyRepository.existsById(report.property.id ?: ""))
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0011)
-
         if (!leaseRepository.existsByTenant_IdAndProperty_Id(tenantId, report.property.id!!))
-            throw OperationNotAllowedException(RuntimeErrorEnum.ERR0021)
-
+            throw OperationNotAllowedException(RuntimeErrorEnum.ERR0024)
         report.tenant = TenantDomain(id = tenantId)
         val reportSaved = reportRepository.save(mapper.toEntity(report))
         return mapper.toDomain(reportSaved)

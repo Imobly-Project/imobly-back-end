@@ -37,11 +37,6 @@ class TenantService(
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
         })
 
-    fun findByEmail(email: String): TenantDomain =
-        tenantMapper.toDomain(tenantRepository.findByEmail(email).orElseThrow {
-            throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
-        })
-
     fun createAccount(tenant: TenantDomain, file: MultipartFile?): TenantDomain {
         tenant.role = UserRoleEnum.TENANT
         tenant.passwd = BCryptPasswordEncoder().encode(tenant.password)
@@ -96,7 +91,7 @@ class TenantService(
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
 
         if (leaseRepository.existsByTenant_Id(id))
-            throw OperationNotAllowedException(RuntimeErrorEnum.ERR0020)
+            throw OperationNotAllowedException(RuntimeErrorEnum.ERR0023)
 
         tenantRepository.deleteById(id)
     }

@@ -40,7 +40,7 @@ class SecurityConfig(val jwtAuthFilter: JwtAuthFilter) {
                     .requestMatchers("/graficos/**").hasRole("LAND_LORD")
 
                     .requestMatchers("/categorias/encontrartodos", "/categorias/encontrarporid/**").permitAll()
-                    .requestMatchers("/categorias/inserir", "/categorias/atualizar/**", "/categorias/deletar/**").hasRole("LAND_LORD")
+                    .requestMatchers("/categorias/criar", "/categorias/atualizar/**", "/categorias/deletar/**").hasRole("LAND_LORD")
 
                     .requestMatchers(  "/reportacoes/encontrarporperfil", "/reportacoes/criar").hasRole("TENANT")
                     .requestMatchers("/reportacoes/encontrartodos", "/reportacoes/responderreportacao/**", "/reportacoes/atualizarstatus/**", "/reportacoes/deletar/**").hasRole("LAND_LORD")
