@@ -34,6 +34,10 @@ class SecurityConfig(val jwtAuthFilter: JwtAuthFilter) {
                     .requestMatchers("/autenticacoes/**").permitAll()
 
                     .requestMatchers("/redefinirsenha/**").permitAll()
+                    
+                    .requestMatchers("/v3/api-docs/**").permitAll()
+                    .requestMatchers("/swagger-ui/**").permitAll()
+                    .requestMatchers("/swagger-ui.html").permitAll()
 
                     .requestMatchers("/locadores/**").hasRole("LAND_LORD")
 

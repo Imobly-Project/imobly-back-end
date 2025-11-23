@@ -52,6 +52,9 @@ dependencies {
     implementation("com.amazonaws:aws-java-sdk-s3:1.12.698")
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     implementation("org.glassfish.jaxb:jaxb-runtime:2.3.1")
+
+    // SWAGGER/OPENAPI
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14")
 }
 
 kotlin {
