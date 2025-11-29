@@ -15,24 +15,17 @@ import java.time.temporal.ChronoUnit
 @Service
 class PaymentService(
     private val paymentRepository: PaymentRepository, private val mapper: PaymentPersistenceMapper) {
-    fun findAll(): List<PaymentDomain> = mapper.toDomains(paymentRepository.findAll())
 
-    fun findById(id: String): PaymentDomain =
-        mapper.toDomain(paymentRepository.findById(id).orElseThrow({
+    fun findByLeaseId(id: String): PaymentDomain =
+        mapper.toDomain(paymentRepository.findByLease_Id(id).orElseThrow {
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0017)
-        }))
+        })
 
     fun insert(lease: LeaseDomain): PaymentDomain {
         val numberInstallment = ChronoUnit.MONTHS.between(lease.startDate, lease.endDate)
         val date = LocalDate.of(lease.startDate.year, lease.startDate.month, lease.paymentDueDay)
         val installments = mutableListOf<MonthlyInstallmentDomain>()
-        installments.add(MonthlyInstallmentDomain(
-            monthlyRent = lease.monthlyRent,
-            status = PaymentStatusEnum.PENDING,
-            dueDate = lease.startDate,
-            month = lease.startDate.month
-        ))
-        for (nInstallment in 1 .. numberInstallment) {
+        for (nInstallment in 0 .. numberInstallment) {
             installments.add(MonthlyInstallmentDomain(
                 monthlyRent = lease.monthlyRent,
                 status = PaymentStatusEnum.PENDING,
@@ -44,6 +37,20 @@ class PaymentService(
         val paymentSaved = paymentRepository.save(mapper.toEntity(payment))
         return mapper.toDomain(paymentSaved)
     }
+
+//    fun updateInstallments(idPayment: String, ) {
+//        val payment = mapper.toDomain(paymentRepository.findById(idPayment).orElseThrow {
+//            throw ResourceNotFoundException(RuntimeErrorEnum.ERR0017)
+//        })
+//        payment.installments = payment.installments.map {
+//            if (it.status != PaymentStatusEnum.PAID && it.status != PaymentStatusEnum.OVERDUE) {
+//
+//
+//            }
+//            it
+//        }
+//        paymentRepository.save(mapper.toEntity(payment))
+//    }
 
     fun updateStatusInstallment(idPayment: String, idInstallment: String, statusInstallment: MonthlyInstallmentDomain) {
         val payment = mapper.toDomain(paymentRepository.findById(idPayment).orElseThrow {

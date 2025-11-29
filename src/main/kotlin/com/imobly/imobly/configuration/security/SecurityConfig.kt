@@ -58,7 +58,7 @@ class SecurityConfig(val jwtAuthFilter: JwtAuthFilter) {
                     .requestMatchers("/locatarios/encontrarperfil", "/locatarios/atualizarperfil", "/locatarios/deletarperfil").hasRole("TENANT")
                     .requestMatchers("/locatarios/encontrartodos", "/locatarios/atualizar/**", "/locatarios/deletar/**").hasRole("LAND_LORD")
 
-                    .requestMatchers("/pagamentos/encontrartodos", "/pagamentos/encontrarporid/**").hasRole("TENANT")
+                    .requestMatchers("/pagamentos/encontrarporlocacaoid/**").hasRole("TENANT")
                     .requestMatchers("/pagamentos/atualizarstatus/**").hasRole("LAND_LORD")
 
                     .anyRequest().authenticated()

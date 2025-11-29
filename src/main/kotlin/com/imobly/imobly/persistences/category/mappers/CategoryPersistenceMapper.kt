@@ -13,9 +13,13 @@ class CategoryPersistenceMapper {
 
     fun toDomainWithoutProperties(category: CategoryEntity): CategoryDomain =
         CategoryDomain(category.id, category.title, emptyList())
+
+    fun toEntityWithoutProperties(category: CategoryDomain): CategoryEntity =
+        CategoryEntity(category.id, category.title, emptyList())
+
     fun toDomains(categories: List<CategoryEntity>): List<CategoryDomain> =
         categories.map { toDomain(it, PropertyPersistenceMapper(AddressPersistenceMapper())) }
 
-    fun toEntity(category: CategoryDomain): CategoryEntity =
-        CategoryEntity(category.id, category.title, emptyList())
+    fun toEntity(category: CategoryDomain, mapper: PropertyPersistenceMapper): CategoryEntity =
+        CategoryEntity(category.id, category.title, mapper.toEntities(category.properties))
 }

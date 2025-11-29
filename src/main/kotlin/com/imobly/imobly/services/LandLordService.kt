@@ -1,6 +1,5 @@
 package com.imobly.imobly.services
 
-import com.imobly.imobly.domains.changeemail.ChangeEmailLandLordDomain
 import com.imobly.imobly.domains.enums.UserRoleEnum
 import com.imobly.imobly.domains.users.LandLordDomain
 import com.imobly.imobly.exceptions.DuplicateResourceException

@@ -13,6 +13,11 @@ class PropertyPersistenceMapper(val addressMapper: AddressPersistenceMapper) {
             toDomain(it, CategoryPersistenceMapper())
         }
 
+    fun toEntities(properties: List<PropertyDomain>): List<PropertyEntity> =
+        properties.map {
+            toEntity(it, CategoryPersistenceMapper())
+        }
+
     fun toEntity(property: PropertyDomain, categoryMapper: CategoryPersistenceMapper): PropertyEntity =
         PropertyEntity(
             id = property.id,
@@ -25,7 +30,7 @@ class PropertyPersistenceMapper(val addressMapper: AddressPersistenceMapper) {
             bedrooms = property.bedrooms,
             garageSpaces = property.garageSpaces,
             address = addressMapper.toEntity(property.address),
-            category = categoryMapper.toEntity(property.category)
+            category = categoryMapper.toEntityWithoutProperties(property.category)
         )
 
     fun toDomain(property: PropertyEntity, categoryMapper: CategoryPersistenceMapper): PropertyDomain =

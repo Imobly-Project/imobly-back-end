@@ -21,15 +21,11 @@ class PaymentController(
     val paymentMapper: PaymentWebMapper,
     val installmentMapper: MonthlyInstallmentWebMapper
 ) {
-    @GetMapping("/encontrartodos")
-    fun findAll(): ResponseEntity<List<PaymentDTO>> = ResponseEntity.ok().body(
-        paymentMapper.toDTOs(service.findAll())
-    )
 
-    @GetMapping("/encontrarporid/{id}")
-    fun findById(@PathVariable id: String): ResponseEntity<PaymentDTO> =
+    @GetMapping("/encontrarporlocacaoid/{leaseId}")
+    fun findByLeaseId(@PathVariable leaseId: String): ResponseEntity<PaymentDTO> =
         ResponseEntity.ok().body(
-            paymentMapper.toDTO(service.findById(id))
+            paymentMapper.toDTO(service.findByLeaseId(leaseId))
         )
 
     @PatchMapping("/atualizarstatus/{idPayment}/{idInstallment}")
