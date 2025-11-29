@@ -3,8 +3,7 @@ package com.imobly.imobly.controllers.issuereport.mappers
 import com.imobly.imobly.controllers.category.mappers.CategoryWebMapper
 import com.imobly.imobly.controllers.issuereport.dtos.TenantCreateReportDTO
 import com.imobly.imobly.controllers.issuereport.dtos.ReportDTO
-import com.imobly.imobly.controllers.issuereport.dtos.LandLordResponseReportDTO
-import com.imobly.imobly.controllers.issuereport.dtos.LandLordStatusReportDTO
+import com.imobly.imobly.controllers.issuereport.dtos.UpdateReportDTO
 import com.imobly.imobly.controllers.property.mappers.PropertyWebMapper
 import com.imobly.imobly.controllers.tenant.mappers.TenantWebMapper
 import com.imobly.imobly.domains.ReportDomain
@@ -24,11 +23,11 @@ class ReportWebMapper(
             property = propertyMapper.toDomainOnlyId(report.propertyId ?: "")
         )
 
-    fun toDomain(statusReport: LandLordStatusReportDTO): ReportDomain =
-        ReportDomain(status = statusReport.status ?: ReportStatusEnum.PENDING)
-
-    fun toDomain(responseReport: LandLordResponseReportDTO): ReportDomain =
-        ReportDomain(response = responseReport.response ?: "")
+    fun toDomain(report: UpdateReportDTO): ReportDomain =
+        ReportDomain(
+            status = report.status ?: ReportStatusEnum.PENDING,
+            response = report.response ?: ""
+        )
 
     fun toDTOs(reports: List<ReportDomain>): List<ReportDTO> =
         reports.map { toDTO(it) }

@@ -8,13 +8,15 @@ import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
 import com.imobly.imobly.persistences.landlord.mappers.LandLordPersistenceMapper
 import com.imobly.imobly.persistences.landlord.repositories.LandLordRepository
+import com.imobly.imobly.persistences.lease.repositories.LeaseRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class LandLordService(
     private val repository: LandLordRepository,
-    private val mapper: LandLordPersistenceMapper
+    private val mapper: LandLordPersistenceMapper,
+    private val leaseRepository: LeaseRepository
 ) {
 
     fun findById(id: String): LandLordDomain =
@@ -48,6 +50,10 @@ class LandLordService(
     fun deleteAccount(id: String) {
         if (!repository.existsById(id))
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0013)
+
+        if (leaseRepository.findAll().isNotEmpty())
+            throw OperationNotAllowedException(RuntimeErrorEnum.ERR0027)
+
         repository.deleteById(id)
     }
 

@@ -55,20 +55,12 @@ class IssueReportService(
         return mapper.toDomain(reportSaved)
     }
 
-    fun replyToReport(id: String, responseReport: ReportDomain): ReportDomain {
+    fun update(id: String, report: ReportDomain): ReportDomain {
         val reportFound = mapper.toDomain(reportRepository.findById(id).orElseThrow {
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0015)
         })
-        reportFound.response = responseReport.response
-        val reportUpdated = reportRepository.save(mapper.toEntity(reportFound))
-        return mapper.toDomain(reportUpdated)
-    }
-
-    fun updateStatus(id: String, statusReport: ReportDomain): ReportDomain {
-        val reportFound = mapper.toDomain(reportRepository.findById(id).orElseThrow({
-            throw ResourceNotFoundException(RuntimeErrorEnum.ERR0015)
-        }))
-        reportFound.status = statusReport.status
+        reportFound.response = report.response
+        reportFound.status = report.status
         val reportUpdated = reportRepository.save(mapper.toEntity(reportFound))
         return mapper.toDomain(reportUpdated)
     }

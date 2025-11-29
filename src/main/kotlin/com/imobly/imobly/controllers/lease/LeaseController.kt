@@ -22,8 +22,11 @@ import org.springframework.web.bind.annotation.RestController
 class LeaseController(val service: LeaseService, val mapper: LeaseWebMapper) {
 
     @GetMapping("/encontrartodos")
-    fun findAllByTenantNameAndPropertyTitle(@RequestParam("nomeoutitulo") nameOrTitle: String): ResponseEntity<List<LeaseDTO>> =
-        ResponseEntity.ok().body(mapper.toDTOs(service.findAllByTenantNameOrPropertyTitle(nameOrTitle)))
+    fun findAllByTenantNameOrPropertyTitleAndIsEnabled(
+        @RequestParam("nomeoutitulo") nameOrTitle: String,
+        @RequestParam("active", defaultValue = "true", required = false) active: Boolean
+    ): ResponseEntity<List<LeaseDTO>> =
+        ResponseEntity.ok().body(mapper.toDTOs(service.findAllByTenantNameOrPropertyTitleAndIsEnabled(nameOrTitle, active)))
 
     @GetMapping("/encontrarporid/{id}")
     fun findById(@PathVariable id: String): ResponseEntity<LeaseDTO> =

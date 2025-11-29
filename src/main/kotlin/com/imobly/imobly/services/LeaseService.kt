@@ -22,14 +22,14 @@ class LeaseService(
     private val paymentService: PaymentService,
     private val mapper: LeasePersistenceMapper
 ) {
-    fun findAllByTenantNameOrPropertyTitle(nameOrTitle: String): List<LeaseDomain> {
+    fun findAllByTenantNameOrPropertyTitleAndIsEnabled(nameOrTitle: String, active: Boolean): List<LeaseDomain> {
         val list = mapper.toDomains(
             leaseRepository.findByTenant_FirstNameContainingOrTenant_LastNameContainingOrProperty_TitleContainingAllIgnoreCase(
                 nameOrTitle, nameOrTitle, nameOrTitle
             )
         )
         Collections.sort(list)
-        return list
+        return list.filter { it.isEnabled == active }
     }
 
     fun findById(id: String): LeaseDomain =

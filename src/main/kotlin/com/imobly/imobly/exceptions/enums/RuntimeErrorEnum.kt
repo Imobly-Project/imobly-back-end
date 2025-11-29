@@ -26,5 +26,8 @@ enum class RuntimeErrorEnum(val code: String, val message: String) {
     ERR0023("OPERATION_NOT_ALLOWED", "Não é possível deletar, pois esta conta está vinculada a um contrato"),
     ERR0024("OPERATION_NOT_ALLOWED", "Esta propriedade não lhe pertence"),
     ERR0025("OPERATION_NOT_ALLOWED", "Só é possível existir uma única conta de locador"),
+    ERR0026("OPERATION_NOT_ALLOWED", "Não é possível deletar, pois esta categoria está vinculada a uma(algumas) propriedade(s) "),
+
+    ERR0027("OPERATION_NOT_ALLOWED", "Não é possível deletar sua conta, pois existem contratos ativos"),
 
 }
