@@ -17,4 +17,6 @@ interface TenantRepository : JpaRepository<TenantEntity, String> {
 
     fun existsByCpfAndIdNot(cpf: String, id: String): Boolean
 
+    fun existsByEmail(email: String): Boolean
+
 }

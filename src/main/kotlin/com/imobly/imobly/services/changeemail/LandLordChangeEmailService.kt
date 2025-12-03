@@ -1,4 +1,4 @@
-package com.imobly.imobly.services
+package com.imobly.imobly.services.changeemail
 
 import com.imobly.imobly.domains.changeemail.ChangeEmailLandLordDomain
 import com.imobly.imobly.domains.users.LandLordDomain
@@ -10,11 +10,12 @@ import com.imobly.imobly.persistences.changeemail.mappers.ChangeEmailPersistence
 import com.imobly.imobly.persistences.changeemail.repositories.ChangeEmailLandLordRepository
 import com.imobly.imobly.persistences.landlord.mappers.LandLordPersistenceMapper
 import com.imobly.imobly.persistences.landlord.repositories.LandLordRepository
+import com.imobly.imobly.services.EmailService
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
 @Service
-class ChangeEmailService(
+class LandLordChangeEmailService(
     private val landLordRepository: LandLordRepository,
     private val landLordMapper: LandLordPersistenceMapper,
     private val changeEmailRepository: ChangeEmailLandLordRepository,

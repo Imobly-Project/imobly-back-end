@@ -77,7 +77,6 @@ class TenantService(
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
         })
         checkUniqueFieldsOnlyEmail(tenant, id)
-        tenantFound.email = tenant.email
         tenantFound.telephones = tenant.telephones
         if (file != null)
             tenantFound.pathImage = uploadService.uploadImage(file)

@@ -1,13 +1,16 @@
 package com.imobly.imobly.controllers.tenant.mappers
 
+import com.imobly.imobly.controllers.landlord.dtos.UpdateLandLordEmailDTO
 import com.imobly.imobly.controllers.property.dtos.AddressDTO
 import com.imobly.imobly.controllers.property.mappers.AddressWebMapper
 import com.imobly.imobly.controllers.tenant.dtos.LandLordUpdateTenantDTO
 import com.imobly.imobly.controllers.tenant.dtos.SelfUpdateTenantDTO
 import com.imobly.imobly.controllers.tenant.dtos.TelephoneDTO
 import com.imobly.imobly.controllers.tenant.dtos.TenantDTO
+import com.imobly.imobly.controllers.tenant.dtos.UpdateTenantEmailDTO
 import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.domains.enums.MaritalStatusEnum
+import com.imobly.imobly.domains.users.LandLordDomain
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 
@@ -90,4 +93,10 @@ class TenantWebMapper(val addressMapper: AddressWebMapper) {
         tenants.map {
             toDTO(it)
         }
+
+    fun toDomain(tenant: UpdateTenantEmailDTO): TenantDomain =
+        TenantDomain(
+            email = tenant.email?.trim()  ?: ""
+        )
+
 }
