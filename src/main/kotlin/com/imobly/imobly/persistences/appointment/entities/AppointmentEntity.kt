@@ -24,7 +24,7 @@ class AppointmentEntity(
     val guestName: String,
 
     @Column(name = "data_horario", nullable = false)
-    val moment: LocalDate,
+    val moment: LocalDateTime,
 
     @Column(name = "telefone", nullable = false, length = 20)
     val telephone: String,

@@ -35,5 +35,5 @@ enum class RuntimeErrorEnum(val code: String, val message: String) {
     ERR0029("OPERATION_NOT_ALLOWED", "Não é possível deletar, pois esta propriedade está vinculada a um contrato"),
 
     ERR0030("RESOURCE_NOT_FOUND", "O agendamento solicitado não foi encontrado"),
-
+    ERR0031("OPERATION_NOT_ALLOWED", "Não é possível diminuir o período do contrato"),
 }

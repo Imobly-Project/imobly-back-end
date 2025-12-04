@@ -4,6 +4,7 @@ import com.imobly.imobly.domains.LeaseDomain
 import com.imobly.imobly.domains.PropertyDomain
 import com.imobly.imobly.domains.users.TenantDomain
 import com.imobly.imobly.exceptions.InvalidArgumentsException
+import com.imobly.imobly.exceptions.OperationNotAllowedException
 import com.imobly.imobly.exceptions.ResourceNotFoundException
 import com.imobly.imobly.exceptions.enums.RuntimeErrorEnum
 import com.imobly.imobly.persistences.lease.mappers.LeasePersistenceMapper
@@ -63,15 +64,15 @@ class LeaseService(
         val lease = mapper.toDomain(leaseRepository.findById(id).orElseThrow {
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0016)
         })
-        if (leaseWithNewData.endDate.isBefore(leaseWithNewData.startDate))
-            throw InvalidArgumentsException(RuntimeErrorEnum.ERR0002)
-        lease.startDate = leaseWithNewData.startDate
-        lease.endDate = leaseWithNewData.endDate
+        val paymentDueDay = lease.paymentDueDay
         lease.monthlyRent = leaseWithNewData.monthlyRent
         lease.paymentDueDay = leaseWithNewData.paymentDueDay
         lease.securityDeposit = leaseWithNewData.securityDeposit
         lease.lastUpdatedAt = LocalDateTime.now()
         val leaseUpdated = leaseRepository.save(mapper.toEntity(lease))
+        if (paymentDueDay != lease.paymentDueDay) {
+            paymentService.updatePaymentDueDateInstallment(lease)
+        }
         return mapper.toDomain(leaseUpdated)
     }
 

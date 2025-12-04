@@ -23,9 +23,9 @@ data class TenantDTO(
     @field:Size(min = 3, max = 40, message = "O campo sobrenome deve ter entre 3  e 50 caracteres")
     val lastName: String? = "",
 
-    @field:NotNull(message = "O campo E-mail é obrigatório")
-    @field:Email(message = "O E-mail informado é inválido")
-    @field:Size(min = 3, max = 100, message = "O campo E-mail deve ter entre 3  e 100 caracteres")
+    @field:NotNull(message = "O campo e-mail é obrigatório")
+    @field:Email(message = "O e-mail informado é inválido")
+    @field:Size(min = 3, max = 100, message = "O campo e-mail deve ter entre 3  e 100 caracteres")
     val email: String? = "",
 
     @field:NotNull(message = "O campo senha é obrigatório")

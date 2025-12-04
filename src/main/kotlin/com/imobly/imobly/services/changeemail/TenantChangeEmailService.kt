@@ -41,7 +41,7 @@ class TenantChangeEmailService(
                 val changeEmail = ChangeEmailTenantDomain(
                     token = token,
                     tenant = tenantMapper.toDomain(tenantFound),
-                    email = tenantFound.email,
+                    email = tenant.email,
                     moment = LocalDateTime.now().plusMinutes(10)
                 )
                 checkIfEmailAlreadyExists(tenant.email)

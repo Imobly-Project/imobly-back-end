@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Future
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class AppointmentDTO(
     val id: String?,
@@ -17,8 +17,8 @@ data class AppointmentDTO(
 
     @field:NotNull(message = "O campo data e horário é obrigatório")
     @field:Future(message = "O campo data e horário deve estar no futuro")
-    @field:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    val moment: LocalDate?,
+    @field:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm")
+    val moment: LocalDateTime?,
 
     @field:NotNull(message = "O telefone é obrigatório")
     @field:Pattern(

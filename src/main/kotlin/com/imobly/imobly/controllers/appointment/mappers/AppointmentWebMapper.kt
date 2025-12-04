@@ -20,7 +20,7 @@ class AppointmentWebMapper() {
         AppointmentDomain(
             appointment.id,
             appointment.guestName ?: "",
-            appointment.moment ?: LocalDate.now(),
+            appointment.moment ?: LocalDateTime.now(),
             appointment.telephone ?: "",
             PropertyDomain(id = appointment.property?.id ?: "")
         )

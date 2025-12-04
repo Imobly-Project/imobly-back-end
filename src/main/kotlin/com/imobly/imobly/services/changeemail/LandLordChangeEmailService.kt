@@ -41,7 +41,7 @@ class LandLordChangeEmailService(
                 val changeEmail = ChangeEmailLandLordDomain(
                     token = token,
                     landLord = landLordMapper.toDomain(landLordFound),
-                    email = landLordFound.email,
+                    email = landLord.email,
                     moment = LocalDateTime.now().plusMinutes(10)
                 )
                 checkIfEmailAlreadyExists(landLord.email)

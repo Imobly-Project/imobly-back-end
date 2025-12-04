@@ -4,6 +4,7 @@ import com.imobly.imobly.controllers.lease.dtos.CreateLeaseDTO
 import com.imobly.imobly.controllers.lease.dtos.UpdateLeaseDTO
 import com.imobly.imobly.controllers.lease.dtos.LeaseDTO
 import com.imobly.imobly.controllers.lease.mappers.LeaseWebMapper
+import com.imobly.imobly.controllers.payment.dtos.StatusInstallmentDTO
 import com.imobly.imobly.services.LeaseService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
