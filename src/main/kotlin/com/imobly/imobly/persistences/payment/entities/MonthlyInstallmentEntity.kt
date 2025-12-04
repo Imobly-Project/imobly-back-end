@@ -1,6 +1,7 @@
 package com.imobly.imobly.persistences.payment.entities
 
 import com.imobly.imobly.domains.enums.PaymentStatusEnum
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType

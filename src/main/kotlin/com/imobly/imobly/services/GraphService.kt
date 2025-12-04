@@ -21,9 +21,13 @@ class GraphService(
         val values: MutableMap<Month, Double> = mutableMapOf()
         payments.forEach {
             it.installments.forEach { installment ->
-                if (installment.status == PaymentStatusEnum.PAID) {
-                    val currentValue = values.getOrDefault(installment.month, 0.0)
-                    values[installment.month] = currentValue + installment.monthlyRent
+                if (installment.dueDate.year == LocalDate.now().year) {
+                    if (installment.status == PaymentStatusEnum.PAID) {
+                        val currentValue = values.getOrDefault(installment.month, 0.0)
+                        values[installment.month] = currentValue + installment.monthlyRent
+                    } else {
+                        values[installment.month] = 0.0
+                    }
                 }
             }
         }

@@ -44,6 +44,9 @@ class LeaseService(
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0011)
         if (!tenantRepository.existsById(leaseAgreement.tenant.id ?: ""))
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
+        if (leaseRepository.existsByProperty_Id(leaseAgreement.property.id!!)) {
+            throw OperationNotAllowedException(RuntimeErrorEnum.ERR0031)
+        }
         if (leaseAgreement.endDate.isBefore(leaseAgreement.startDate))
             throw InvalidArgumentsException(RuntimeErrorEnum.ERR0002)
         val lease = LeaseDomain(

@@ -15,7 +15,9 @@ import java.time.temporal.ChronoUnit
 
 @Service
 class PaymentService(
-    private val paymentRepository: PaymentRepository, private val mapper: PaymentPersistenceMapper) {
+    private val paymentRepository: PaymentRepository,
+    private val mapper: PaymentPersistenceMapper,
+) {
 
     fun findByLeaseId(id: String): PaymentDomain =
         mapper.toDomain(paymentRepository.findByLease_Id(id).orElseThrow {
@@ -65,13 +67,15 @@ class PaymentService(
         )
 
         val installments = mutableListOf<MonthlyInstallmentDomain>()
-        for (nInstallment in 0 .. numberInstallment) {
-            installments.add(MonthlyInstallmentDomain(
-                monthlyRent = lease.monthlyRent,
-                status = PaymentStatusEnum.PENDING,
-                dueDate = date.plusMonths(nInstallment),
-                month = date.plusMonths(nInstallment).month
-            ))
+        for (nInstallment in 0..numberInstallment) {
+            installments.add(
+                MonthlyInstallmentDomain(
+                    monthlyRent = lease.monthlyRent,
+                    status = PaymentStatusEnum.PENDING,
+                    dueDate = date.plusMonths(nInstallment),
+                    month = date.plusMonths(nInstallment).month
+                )
+            )
         }
         return installments
     }
