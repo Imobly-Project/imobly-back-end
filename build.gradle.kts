@@ -55,6 +55,9 @@ dependencies {
 
     // SWAGGER/OPENAPI
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14")
+
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
+
 }
 
 kotlin {
