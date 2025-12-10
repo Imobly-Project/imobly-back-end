@@ -41,8 +41,8 @@ class UploadService(private val amazonS3Client: AmazonS3) {
             throw InvalidArgumentsException(RuntimeErrorEnum.ERR0009)
     }
 
-    fun checkIfMultipartFileIsNull(files: MultipartFile?) {
-        if (files == null)
+    fun checkIfMultipartFileIsNull(file: MultipartFile?) {
+        if (file == null)
             throw InvalidArgumentsException(RuntimeErrorEnum.ERR0009)
     }
 

@@ -24,11 +24,10 @@ class PaymentService(
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0017)
         })
 
-    fun insert(lease: LeaseDomain): PaymentDomain {
+    fun insert(lease: LeaseDomain) {
         val installments = createInstallments(lease)
         val payment = PaymentDomain(lease = lease, installments = installments)
-        val paymentSaved = paymentRepository.save(mapper.toEntity(payment))
-        return mapper.toDomain(paymentSaved)
+        paymentRepository.save(mapper.toEntity(payment))
     }
 
     fun updateStatusInstallment(idPayment: String, idInstallment: String, statusInstallment: MonthlyInstallmentDomain) {
@@ -56,7 +55,7 @@ class PaymentService(
         paymentRepository.save(mapper.toEntity(payment))
     }
 
-    fun createInstallments(lease: LeaseDomain): MutableList<MonthlyInstallmentDomain> {
+    private fun createInstallments(lease: LeaseDomain): MutableList<MonthlyInstallmentDomain> {
         val numberInstallment = ChronoUnit.MONTHS.between(lease.startDate, lease.endDate)
         val lastDay = lease.startDate.month.length(Year.isLeap(lease.startDate.year.toLong()))
 
