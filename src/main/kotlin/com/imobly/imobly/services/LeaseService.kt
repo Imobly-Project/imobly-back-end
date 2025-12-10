@@ -38,15 +38,13 @@ class LeaseService(
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0016)
         })
 
-
-    fun insert(leaseAgreement: LeaseDomain): LeaseDomain {
+    fun insert(leaseAgreement: LeaseDomain) {
         if (!propertyRepository.existsById(leaseAgreement.property.id ?: ""))
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0011)
         if (!tenantRepository.existsById(leaseAgreement.tenant.id ?: ""))
             throw ResourceNotFoundException(RuntimeErrorEnum.ERR0012)
-        if (leaseRepository.existsByProperty_Id(leaseAgreement.property.id!!)) {
+        if (leaseRepository.existsByProperty_Id(leaseAgreement.property.id!!))
             throw OperationNotAllowedException(RuntimeErrorEnum.ERR0031)
-        }
         if (leaseAgreement.endDate.isBefore(leaseAgreement.startDate))
             throw InvalidArgumentsException(RuntimeErrorEnum.ERR0002)
         val lease = LeaseDomain(
@@ -60,7 +58,6 @@ class LeaseService(
         )
         val leaseSaved = leaseRepository.save(mapper.toEntity(lease))
         paymentService.insert(mapper.toDomain(leaseSaved))
-        return mapper.toDomain(leaseSaved)
     }
 
     fun update(id: String, leaseWithNewData: LeaseDomain): LeaseDomain {

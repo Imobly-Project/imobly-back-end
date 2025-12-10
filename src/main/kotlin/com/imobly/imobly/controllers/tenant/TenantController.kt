@@ -57,7 +57,7 @@ class TenantController(
     }
 
     @PatchMapping("/atualizaremail/{code}")
-    fun sendCodeForUpdateEmail(request: HttpServletRequest, @PathVariable code: String): ResponseEntity<TenantDTO> {
+    fun updateEmail(request: HttpServletRequest, @PathVariable code: String): ResponseEntity<TenantDTO> {
         val id = tokenService.getIdFromRequest(request)
         changeEmailService.updateEmail( id, code )
         return ResponseEntity.ok().build()

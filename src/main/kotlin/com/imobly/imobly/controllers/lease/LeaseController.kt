@@ -34,10 +34,10 @@ class LeaseController(val service: LeaseService, val mapper: LeaseWebMapper) {
         ResponseEntity.ok().body(mapper.toDTO(service.findById(id)))
 
     @PostMapping("/inserir")
-    fun insert(@Valid @RequestBody lease: CreateLeaseDTO): ResponseEntity<LeaseDTO> =
-        ResponseEntity.status(HttpStatus.CREATED).body(
-            mapper.toDTO(service.insert(mapper.toDomain(lease)))
-        )
+    fun insert(@Valid @RequestBody lease: CreateLeaseDTO): ResponseEntity<Void> {
+        service.insert(mapper.toDomain(lease))
+        return ResponseEntity.status(HttpStatus.CREATED).build()
+    }
 
     @PatchMapping("/atualizar/{id}")
     fun update(

@@ -52,7 +52,7 @@ class LandLordController(
     }
 
     @PatchMapping("/atualizaremail/{code}")
-    fun sendCodeForUpdateEmail(request: HttpServletRequest, @PathVariable code: String): ResponseEntity<LandLordDTO> {
+    fun updateEmail(request: HttpServletRequest, @PathVariable code: String): ResponseEntity<LandLordDTO> {
         val id = tokenService.getIdFromRequest(request)
         changeEmailService.updateEmail( id, code )
         return ResponseEntity.ok().build()

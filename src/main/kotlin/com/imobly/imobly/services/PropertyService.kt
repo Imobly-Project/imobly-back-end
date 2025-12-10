@@ -14,7 +14,6 @@ import com.imobly.imobly.persistences.lease.repositories.LeaseRepository
 import com.imobly.imobly.persistences.property.mappers.AddressPersistenceMapper
 import com.imobly.imobly.persistences.property.mappers.PropertyPersistenceMapper
 import com.imobly.imobly.persistences.property.repositories.PropertyRepository
-import jdk.jfr.Category
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.util.Collections
